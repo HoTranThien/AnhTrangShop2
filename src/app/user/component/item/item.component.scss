@@ -1,0 +1,35 @@
+@import "../../../../styles.scss";
+.item{
+    width: $width;
+    display: block;
+    overflow: hidden;
+}
+.item-panel{
+    width: $width*2.5;
+    display: flex;
+    transition: transform 0.5s;
+    
+}
+.item-name{
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: medium;
+    display: block;
+    width: $width;
+    color: black;
+}
+
+.item-img{
+    width: $width;
+    height: $height;
+    background-size: cover;
+}
+.item:hover .item-panel{
+    transform: translateX(-$width);
+}
+
+.cost{
+    text-decoration: line-through;
+    opacity: 0.5;
+}

@@ -1,0 +1,55 @@
+@import "../../../../styles.scss";
+
+*{
+    padding: 0;
+    margin: 0;
+}
+$border: 0.1rem solid rgba(0,0,0,0.3);
+$scale: 0.4;
+.cart-title{
+    font-size: 1.5rem;
+}
+.cart-title-detail{
+    border-bottom: $border;
+}
+.product-thumbnail{
+    width: $width*$scale;
+    height: $height*$scale;
+    object-fit: cover;
+}
+.sum{
+    border-top: $border;
+}
+.product{
+    border-bottom: $border;
+}
+.end-tab{
+    width: $width*$scale;
+}
+input .ng-invalid{
+    border: solid 0.125rem red;
+}
+small{
+    color:red;
+}
+.success{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap:4rem;
+    width: 100%;
+    height: 100vh;
+    p{
+        font-size: 4rem;
+        font-weight: bold;
+        color: var(--purple-800);
+    }
+}
+:host::ng-deep{
+    .icon-success{
+        font-size: 10rem;
+        font-weight: bold;
+        color: var(--purple-800);
+    } 
+}

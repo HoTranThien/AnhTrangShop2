@@ -1,0 +1,66 @@
+<app-spiner [isshow]="loading"></app-spiner>
+
+<app-message [index]="2" #message></app-message>
+<div class="card order-page">
+<p-table
+    [value]="orders"
+    [paginator]="true"
+    [rows]="5"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem'}"
+    [rowsPerPageOptions]="[5, 10, 20]"
+>   
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:20%,">Customer</th>
+            <th style="width:15%">Tel</th>
+            <th style="width:20%">Address</th>
+            <th style="width:10%">Total</th>
+            <th style="width:5%">Express</th>
+            <th style="width:5%">Status</th>
+            <th style="width:15%">Date</th>
+            <th style="width:5%">Detail</th>
+            <th style="width:5%">Delete</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+        <tr>
+            <td>{{ order.customer_name }}</td>
+            <td>{{ order.customer_tel }}</td>
+            <td>{{ order.customer_address }}</td>
+            <td>{{ order.total|number}}đ</td>
+            <td>
+              <ng-container *ngIf="order.delivery.id==2">
+                  <div class="w-full flex justify-content-center">
+                      <p-tag severity="danger" value="EXP"/>
+                  </div>
+              </ng-container>
+            </td>
+             <td>
+                <p-dropdown 
+                [options]="status.status" 
+                [(ngModel)]="order.status"
+                [class.new]="order.status == status.status[0]"
+                [class.delivery]="order.status == status.status[1]"
+                [class.done]="order.status == status.status[2]"
+                [class.cancel]="order.status == status.status[3]"
+                (onChange)="updateStatus(order.status,order.id)"
+                />
+             </td>
+            <td>{{ order.createdAt|date}}</td>
+            <td>
+              <p-button label="Detail" severity="info"
+              [routerLink]="['/admin/order/detail',order.id]" [state]="{id:order.id}"
+              />
+            </td>
+            <td>
+              <div class="w-full flex justify-content-center">
+                  <p-button icon="pi pi-times-circle" [rounded]="true" severity="danger"
+                  (onClick)="deleteOrder(order.id)"
+                    class="delete"/>
+              </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+</div>

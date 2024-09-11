@@ -1,0 +1,49 @@
+
+:host::ng-deep{
+    .card{
+        .p-component{
+            width: 100%;
+        }
+    }
+    .img-tag{
+        .p-component{
+            padding: 0;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+    }
+}
+.img-container{
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d1d5db;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    min-height: 10rem;
+    img{
+        width: 10rem;
+        cursor: pointer;
+    }
+}
+.img-container:hover{
+    border-color: #3B82F6;
+}
+
+.img-tag{
+    position: relative;
+    .img-close-btn{
+        position: absolute;
+        top: 0;
+        right: 0;
+        transform: translate(50%,-50%);
+        display: none;
+    }
+
+}
+.img-tag:hover{
+    .show_img_close_btn{
+       display: block;
+    }
+    // .img-close-btn{
+    //     display: block;
+    // }
+}

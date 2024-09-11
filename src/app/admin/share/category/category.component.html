@@ -1,0 +1,43 @@
+
+<div class="collection-row">
+  <div class="flex gap-4 align-items-center">
+    <div class="tag">
+      <app-single-table 
+        (sendmessagetoparent)="receiveMCMessage($event,category.id)" #mcdialog></app-single-table>
+      <div class="tool">
+        <p-button icon="pi pi-pencil" class="item-btn" [rounded]="true" severity="success"  size="small"
+                    (onClick)="showMCDialog()"/>
+        <p-button icon="pi pi-times" class="item-btn" [rounded]="true" severity="danger"  size="small"
+                      (onClick)="deleteMC(category.id)"/>
+      </div>
+      <div class="tag-content">
+        <p class="parent-category">{{category.name}}</p>
+      </div>
+    </div>
+    <div class="flex gap-1 align-items-center relative">
+      <p-button icon="pi pi-plus" class="title-btn add-child" [rounded]="true"
+      severity="secondary" [outlined]="true" size="small" (onClick)="showCreateSCDialog()"/>
+      <span class="hidden-info">Add new children category</span>
+    </div>
+    <app-single-table [action]="1"
+    (sendmessagetoparent)="receiveSCMessage($event,undefined,undefined)" #createscdialog></app-single-table>
+  </div>
+
+  <div class="children-container">
+    <ng-container *ngFor="let child of category.children_category , index as j">
+      <div class="tag">
+        <app-single-table
+        (sendmessagetoparent)="receiveSCMessage($event,child.id,j)" #scdialog></app-single-table>
+        <div class="tool">
+          <p-button icon="pi pi-pencil" class="item-btn" [rounded]="true" severity="success"  size="small"
+                      (onClick)="showSCDialog(j)"/>
+          <p-button icon="pi pi-times" class="item-btn" [rounded]="true" severity="danger"  size="small"
+          (onClick)="deleteSC(child.id)"/>
+        </div>
+        <div class="tag-content">
+          <p>{{child.name}}</p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

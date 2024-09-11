@@ -1,0 +1,22 @@
+$text-color:var(--purple-100);
+.sidemenu{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    height: 100%;
+    width: 10rem;
+    background-color: var(--purple-900);
+    a{
+        text-decoration: none;
+        color: $text-color;
+        padding: 1rem;
+        display: block;
+        font-size: large;
+        font-weight: bold;
+        border-bottom: solid 0.1rem var(--purple-100);
+    }
+}
+.active{
+    background-color: var(--purple-400);
+    color: black!important;
+}

@@ -1,0 +1,117 @@
+
+$small-icon-size:1.25rem;
+$tag-gap: 2rem;
+*{
+    padding: 0;
+    margin: 0;
+}
+.view{
+    display: flex;
+    gap: $tag-gap;
+    margin-top: 1rem;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.title{
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+:host ::ng-deep{
+    .title-btn{
+        button{
+            width: 1.5rem;
+            height: 1.5rem;
+            padding: 0;
+        }
+    }
+    .item-btn{
+        button{
+            width: $small-icon-size;
+            height: $small-icon-size;
+            padding: 0;
+            .p-button-icon{
+                font-size: 0.75rem;
+            }
+            
+        }
+    }
+}
+.tag{
+    display: flex;
+    position: relative;
+    cursor: pointer;
+    width: max-content;
+    .tag-content{
+        border: solid 0.125rem rgba(0,0,0,0.9);
+        font-weight: bold;
+        color: black;
+        padding: 0.5rem;
+        min-width: 5rem;
+        border-radius: 0.5rem;
+        justify-content: center;
+        display: flex;
+    }
+}
+.tag:hover{
+    .tool{
+        display: flex;
+    }
+}
+.tool{
+    display: none;
+    gap: 0.25rem;
+    position: absolute;
+    right: calc(-1 * $small-icon-size / 2);
+    top:calc(-1 * $small-icon-size / 2);
+}
+.tag-collection:hover{
+    .img-collection{
+        display: block;
+    }
+}
+.img-collection{
+    width: 15rem;
+    position: absolute;
+    top:2.5rem;
+    left: 0;
+    display: none;
+    z-index: 1;
+}
+.collection-row{
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 0.5rem;
+    border: solid 0.125rem black;
+    border-radius: 0.5rem;
+}
+.children-container{
+    display: flex;
+    gap: $tag-gap;
+    row-gap: 1rem;
+    border-top: solid 0.125rem black;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    flex-wrap: wrap;
+}
+.parent-category{
+    font-size: 1.5rem;
+}
+.hidden-info{
+    position: absolute;
+    left:2.25rem;
+    width: max-content;
+    padding: 0.125rem;
+    font-size: 0.75rem;
+    background-color:var(--purple-200);
+    color: black;
+    border-radius: 0.25rem;
+    border: solid 0.125rem var(--purple-800);
+    display: none;
+    z-index: 1;
+}
+.add-child:hover ~.hidden-info{
+    display: block;
+}
+.color{
+    border: solid 0.1rem black;
+}

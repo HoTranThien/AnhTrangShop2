@@ -1,0 +1,33 @@
+:host ::ng-deep{
+    .card{
+        th{
+            padding: 1rem;
+        }
+        td{
+            padding: 1rem;
+        }
+        .p-dropdown{
+            align-items: center;
+        }
+        .p-dropdown-label{
+            padding: 0.5rem;
+        }
+        .p-button{
+            padding: 0.5rem;
+        }
+        .p-paginator{
+            margin: 1rem;
+        }
+        .p-tag{
+            padding: 0.25rem 0.4rem;
+        }
+        .p-button.p-button-icon-only.p-button-rounded{
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+    }
+}
+.issale{
+    font-weight: bold;
+    color:var(--red-600);
+}

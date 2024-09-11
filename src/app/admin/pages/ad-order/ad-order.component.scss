@@ -1,0 +1,48 @@
+:host ::ng-deep{
+    .card{
+        th{
+            padding: 1rem;
+        }
+        td{
+            padding: 1rem;
+        }
+        .p-dropdown{
+            align-items: center;
+        }
+        .p-dropdown-label{
+            padding: 0.5rem;
+        }
+        .p-button{
+            padding: 0.5rem;
+        }
+        .p-paginator{
+            margin: 1rem;
+        }
+        .p-tag{
+            padding: 0.25rem 0.4rem;
+        }
+        .p-button.p-button-icon-only.p-button-rounded{
+            height: 1.5rem;
+            width: 1.5rem;
+        }
+    }
+    .new .p-dropdown-label{
+        color: var(--green-600);
+        font-weight: bold;
+    }
+    .delivery .p-dropdown-label{
+        color: var(--yellow-600);
+        font-weight: bold;
+    }
+    .done .p-dropdown-label{
+        color: var(--bluegray-600);
+        font-weight: bold;
+    }
+    .cancel .p-dropdown-label{
+        color: var(--red-600);
+        font-weight: bold;
+    }
+    .p-datatable>.p-datatable-wrapper{
+        overflow: visible;
+    }
+}

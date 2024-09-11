@@ -1,0 +1,21 @@
+<div class="item relative">
+  <a class="item-panel" [routerLink]="['/product',myitem.name|Nosign]" [state]="{product:myitem}">
+    <div class="item-img" style="background-image: url('{{myitem.img_product[0].link}}')"></div>
+    <div class="item-img" style="background-image: url('{{myitem.img_product[1].link}}')"></div>
+  </a>
+  <ng-container *ngIf="myitem.new">
+    <div class="absolute top-0 right-0">
+      <p-tag severity="success" value="New"/>
+    </div>
+  </ng-container>
+  <div class="item-info text-sm mt-2">
+    <a class="item-name" [routerLink]="['/product',myitem.name|Nosign]" [state]="{product:myitem}"
+        [title]="myitem.name">{{myitem.name}}</a>
+    <div class="item-price font-bold flex gap-2 align-items-center mt-2">
+      <p *ngIf="myitem.sale_cost" class="sale-cost">{{myitem.sale_cost| number}} đ</p>
+      <p *ngIf="myitem.sale_cost" class="sale-tag bg-red-500 w-max border-round-md p-1 text-xs text-white-alpha-90">{{(myitem.sale_cost-myitem.cost)/myitem.cost |percent}}</p>
+      <p [ngClass]="{cost:myitem.sale_cost}">{{myitem.cost| number}} đ</p>
+    </div>
+    
+  </div>
+</div>

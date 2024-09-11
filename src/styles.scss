@@ -1,0 +1,76 @@
+/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import 'primeflex/primeflex.css';
+
+$width: 210px;
+$height: 300px;
+$margin-page: 50px;
+$height-product-button: 3rem;
+
+// *{
+//     margin: 0;
+//     padding: 0;
+// }
+body{
+    margin: 0;
+    padding: 0;
+}
+html{
+    margin: 0;
+    padding: 0;
+}
+.logo{
+    width: 10rem;
+}
+
+html{
+    height: 100%;
+}
+body{
+    min-height: 100vh;
+}
+.footer{
+    position: sticky; 
+    top: 100%
+}
+.margin-page{
+    margin: 0 $margin-page;
+}
+.all-products{
+    padding: 0.25rem;
+    background-color: rgba(0,0,0);
+    border-radius: 0.25rem;
+    text-decoration: none;
+    font-size: small;
+    font-weight: bolder;
+    color: rgba(255,255,255);
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+.panel-img{
+    width: 100%;
+    height: 40rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+.collection{
+    background-color: rgba(0,0,0,0.1);
+    width: 100%;
+    padding: 0.5rem 0;
+    .collection-title{
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    i{
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+}
+.invalidInfo{
+    border: solid 0.1rem red;
+}

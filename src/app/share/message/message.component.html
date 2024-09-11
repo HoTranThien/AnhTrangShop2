@@ -1,0 +1,14 @@
+<div class="message-area">
+  <div class="message-container">
+    <ng-container *ngFor="let mes of messages, index as i">
+      <div class="message" [ngClass]="{'success':mes.status=='good', 'warning':mes.status=='bad'}">
+        <div class="flex justify-content-between align-items-center">
+          <p class="font-bold text-xl pb-2">{{mes.title}}</p>
+          <i class="pi pi-times close-button text-gray-500 cursor-pointer"  (click)="HideMessage(i)"></i>
+        </div>
+        <p>{{mes.detail}}</p>
+      </div>
+    </ng-container>
+  </div>
+</div>
+

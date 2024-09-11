@@ -1,0 +1,36 @@
+
+<dialog [open]="visible" class="dialog">
+  <div class="dialog-body">
+    <p class="dialog-header">{{header[action]}}</p>
+    <div class="dialog-main">
+      <div class="flex flex-column gap-2">
+        <div class="row-info">
+          <div class="title">
+            <p>Name:</p>
+          </div>
+          <input pInputText class="flex-auto"  [(ngModel)]="changedvalue.name" [disabled]="isdisabled"
+                  [class.invalidInfo]="missInfo.missname"/>
+        </div>
+        <div class="row-info">
+          <div class="title">
+            <p>Cost:</p>
+          </div>
+          <div class="num-input">
+            <p-inputNumber inputId="integeronly" [(ngModel)]="changedvalue.cost" [disabled]="isdisabled"
+            [class.invalidInfo]="missInfo.misscost"/>
+          </div>
+        </div>
+      </div>
+      <div class="flex gap-2 relative right-0 justify-content-end mt-4">
+        <ng-container *ngIf="isdisabled">
+          <i class="pi pi-spin pi-spinner" style="font-size: 2rem"></i>
+        </ng-container>
+        <p-button label="Cancel" [disabled]="isdisabled" severity="secondary" (onClick)="closeDialog()" [style]="{padding:'0.25rem'}" />
+        <p-button label="Save" (onClick)="SaveUpdate()" [style]="{padding:'0.25rem'}" [disabled]="isdisabled"/>
+      </div>
+
+    </div>
+  </div>
+  
+</dialog>
+

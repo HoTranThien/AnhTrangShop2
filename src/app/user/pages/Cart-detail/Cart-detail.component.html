@@ -1,0 +1,121 @@
+<app-message [index]="2" #message></app-message>
+<app-spiner [isshow]="loading"></app-spiner>
+<ng-container *ngIf="!isSuccess;else success">
+  <div class="margin-page cart-page mb-4">
+    <div class="flex font-bold justify-content-start my-3">
+      <a routerLink="/home"><i class="pi pi-home"></i></a>
+      <p class="mx-2">|</p>
+      <p>Thông tin giỏ hàng của bạn</p>
+    </div>
+    <div class="flex main-cart">
+      <div class="detail-cart w-6 pr-2">
+        <p class="cart-title cart-title-detail pb-4">CHI TIẾT ĐƠN HÀNG</p>
+        <div>
+          <ng-container *ngFor="let item of MyProducts, index as i">
+            <div>
+              <div class="flex product py-2 gap-4">
+                <div class="flex flex-column align-items-center justify-content-center">
+                  <img src="{{item.img}}" alt="" class="product-thumbnail">
+                  <div class="flex gap-1 mt-2 text-sm justify-content-center align-items-center
+                              cursor-pointer hover:text-red-500" (click)="deleteItem(i)" >
+                    <i class="pi pi-trash text-sm"></i>
+                    <p>Xóa</p>
+                  </div>
+                </div>
+               <div class="w-12">
+                <p class="font-bold text-lg">{{item.name}}</p>
+                <div class="my-2 flex gap-6">
+                  <p>Kích thước: {{item.size.name}}</p>
+                  <p>Màu sắc: {{item.color.name}}</p>
+                </div>
+                <p class="my-2">Đơn giá: {{item.cost| number}} đ</p>
+                <p>Số lượng: <b>{{item.quantity}}</b></p>
+                <div class="w-12 sum mt-2 pt-2">
+                  <p class="font-bold">= {{item.total| number}} đ</p>
+                </div>
+               </div>
+              </div>
+            </div>
+          </ng-container>
+          <div class="flex gap-4 product py-2">
+            <p class="end-tab">Giao hàng</p>
+            <div class="flex flex-column gap-1">
+              <div *ngFor="let de of delivery" class="field-checkbox">
+                  <p-radioButton 
+                      [inputId]="de.id"
+                      name="delivery" 
+                      [value]="de" 
+                      (onClick)="Total()"
+                      [(ngModel)]="selectedDelivery" />
+                  <label [for]="de.id" class="ml-2">
+                      {{ de.name }}: <b>{{de.cost|number}} đ</b>
+                  </label>
+              </div>
+          </div>
+          </div>
+          <div class="flex gap-4 product py-2">
+            <p class="end-tab">Tổng</p>
+            <p class="font-bold text-red-600">{{total| number}} đ</p>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="customer-info w-6 pl-2 h-auto">
+        <form [formGroup]="MyCart" (ngSubmit)="Buy()">
+          <p class="cart-title mb-3">NGƯỜI MUA/NHẬN HÀNG</p>
+          <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Tên</label>
+            <input 
+                pInputText
+                class="p-1" 
+                formControlName="customer_name" />
+                <small>*Is required</small>
+          </div>
+          <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Điện thoại liên lạc</label>
+            <input 
+              pInputText
+              class="p-1" 
+              formControlName="customer_tel" />
+              <small>*Is required</small>
+          </div>
+          <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Địa chỉ giao hàng</label>
+            <input 
+            pInputText
+            class="p-1" 
+            formControlName="customer_address" />
+            <small>*Is required</small>
+          </div>
+          <div class="flex flex-column gap-2">
+            <label for="username">Ghi chú</label>
+            <textarea 
+              pInputTextarea
+              formControlName="customer_note"
+              rows="3" 
+              cols="10" 
+              class="p-1" 
+              [autoResize]="true">
+            </textarea>
+          </div>
+          <div>
+            <p-button label="ĐẶT HÀNG" type="submit" severity="primary" styleClass="p-2 w-12 my-4" />
+          </div>
+          <div>
+            <p-button label="XEM SẢN PHẨM KHÁC" severity="contrast" styleClass="p-2 w-12" (onClick)="GotoHome()"/>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #success>
+  <div class="success">
+    <i class="pi pi-check-circle icon-success"></i>
+    <p>Thank you for your order!!!</p>
+  </div>
+</ng-template>
+

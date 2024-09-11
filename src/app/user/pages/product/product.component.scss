@@ -1,0 +1,107 @@
+@import "../../../../styles.scss";
+*{
+    padding: 0;
+    margin: 0;
+}
+$width-small:$width*0.2;
+$height-small:$height*0.2;
+
+.margin-product-page{
+    margin: 0 8rem;
+}
+.main-product-page{
+    display: flex;
+    gap: 3rem;
+}
+.product-img{
+    width: $width*1.5;
+    height: $height*1.5;
+    object-fit: cover;
+}
+
+.small-img-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 0.75rem;
+    width: max-content;
+    height: $height;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: mandatory;
+    position: absolute;
+    left: -$width-small - 20px;
+    .product-img-small{
+        width: $width-small;
+        height: $height-small;
+        object-fit: cover;
+        cursor: pointer;
+        border-radius: 6px;
+        opacity: 0.5;
+        border: none;
+    }
+    .active{
+        opacity: 1;
+        border: 0.5px solid black;
+    }
+}
+.color-tag{
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 1.5rem;
+    cursor: pointer;
+    border: solid 0.1rem black;
+}
+.activecolor{
+    outline: 0.125rem solid var(--blue-500);
+    outline-offset: 0.125rem;
+}
+.size-tag{
+    width: 5rem;
+    background-color: rgba(0,0,0,0.2);
+    text-align: center;
+    padding: 0.5rem 0;
+    font-weight: bold;
+    font-size: large;
+    border-radius: 0.5rem;
+    cursor: pointer;
+}
+.activesize{
+   background-color: black;
+   color: white;
+}
+.product-name{
+    font-size: 2rem;
+    font-weight: bold;
+}
+.add-to-bag{
+    height: $height-product-button;
+    color: white;
+    background-color: black;
+    border-radius: $height-product-button;
+    display: flex;
+    gap: 1rem;
+    width: 20rem;
+    font-size: large;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}
+.add-to-bag:hover{
+    background-color: rgba(0,0,0,0.2);
+    color: black;
+    border: 0.125rem solid black;
+}
+
+.sale{
+    text-decoration: line-through;
+}
+.message-area{
+    position: sticky;
+    top:0;
+    left: 100%;
+}
+.description{
+    white-space: pre-line;
+}

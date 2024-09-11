@@ -1,0 +1,18 @@
+@import "../../../../styles.scss";
+
+.quantity-button{
+    display: flex;
+    gap: 2rem;
+    width: 8rem;
+    height: $height-product-button;
+    border-radius: $height-product-button;
+    border: 0.125rem solid black;
+    font-size: large;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    i{
+        font-size: small;
+        cursor: pointer;
+    }
+}

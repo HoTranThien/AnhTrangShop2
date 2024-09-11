@@ -1,0 +1,122 @@
+<app-message [index]="2" #message></app-message>
+<app-spiner [isshow]="loading"></app-spiner>
+<form [formGroup]="Customer" (submit)="save()">
+  <div class="margin-page cart-page mb-4">
+    <div class="flex justify-content-between w-12">
+      <div class="mb-4 flex gap-4 align-items-center">
+        <p-button icon="pi pi-arrow-left" [rounded]="true" severity="help" routerLink="/admin/order" />
+        <p-button icon="pi pi-pencil" [rounded]="true" severity="primary" (onClick)="edit()" [disabled]="!isreadonly" />
+        <ng-container *ngIf="!isreadonly">
+          <div class="flex gap-4">
+            <p-button icon="pi pi-check" [rounded]="true" severity="success" type="submit" />
+            <p-button icon="pi pi-times" [rounded]="true" severity="secondary" (onClick)="cancel()" />
+          </div>
+        </ng-container>
+      </div>
+      <div class="flex gap-2 align-items-center">
+        <p class=" mr-2"><b>DATE:</b> {{MyOrder.createdAt|date}}</p>
+        <p class="font-bold">STATUS:</p>
+        <p-dropdown 
+        [options]="status.status" 
+        formControlName="status"
+        [class.new]="Customer.get('status')?.value == status.status[0]"
+        [class.delivery]="Customer.get('status')?.value == status.status[1]"
+        [class.done]="Customer.get('status')?.value == status.status[2]"
+        [class.cancel]="Customer.get('status')?.value == status.status[3]"
+        [readonly]="isreadonly"
+        />
+      </div>
+    </div>
+    
+    <div class="flex main-cart">
+      <div class="detail-cart w-6 pr-2">
+        <p class="cart-title cart-title-detail pb-4">CHI TIẾT ĐƠN HÀNG</p>
+        <div>
+          <ng-container *ngFor="let item of MyOrder.product, index as i">
+            <div>
+              <div class="flex product py-2 gap-4">
+                <div class="flex flex-column align-items-center justify-content-center">
+                  <img src="{{item?.product?.img_product[0].link}}" alt="" class="product-thumbnail">
+                </div>
+               <div class="w-12">
+                <p class="font-bold text-lg">{{item?.product?.name}}</p>
+                <div class="my-2 flex gap-6">
+                  <p>Kích thước: {{item?.size}}</p>
+                  <p>Màu sắc: {{item?.color}}</p>
+                </div>
+                <p>Số lượng: <b>{{item?.quantity}}</b></p>
+               </div>
+              </div>
+            </div>
+          </ng-container>
+          <div class="flex gap-4 product py-2">
+            <p class="end-tab">Giao hàng</p>
+            <div class="flex flex-column gap-1">
+              <p>{{MyOrder?.delivery?.name}}</p>
+          </div>
+          </div>
+          <div class="flex gap-4 product py-2">
+            <p class="end-tab">Tổng</p>
+            <p class="font-bold text-red-600">{{MyOrder?.total|number}} đ</p>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+      <div class="customer-info w-6 pl-2 h-auto">
+        <p class="cart-title mb-3">THÔNG TIN KHÁCH HÀNG</p>
+          <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Tên khách hàng</label>
+            <input 
+                [readOnly]="isreadonly"
+                pInputText
+                class="p-1" 
+                formControlName="customer_name" />
+          </div>
+          <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Điện thoại liên lạc</label>
+            <input 
+              pInputText
+              [readOnly]="isreadonly"
+              class="p-1" 
+              formControlName="customer_tel" />
+          </div>
+          <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Địa chỉ giao hàng</label>
+            <input 
+            pInputText
+            [readOnly]="isreadonly"
+            class="p-1" 
+            formControlName="customer_address" />
+          </div>
+          <div class="flex flex-column gap-2">
+            <label for="username">Ghi chú của khách hàng</label>
+            <textarea 
+              pInputTextarea
+              [readOnly]="isreadonly"
+              formControlName="customer_note"
+              rows="3" 
+              cols="10" 
+              class="p-1" 
+              [autoResize]="true">
+            </textarea>
+          </div>
+        <div class="flex flex-column gap-2 mt-3 pt-3 note">
+          <label for="username">Note</label>
+          <textarea 
+            pInputTextarea
+            rows="3" 
+            cols="10" 
+            class="p-1" 
+            [readOnly]="isreadonly"
+            formControlName="note"
+            [autoResize]="true">
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+

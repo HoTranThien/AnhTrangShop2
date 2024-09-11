@@ -1,0 +1,19 @@
+<app-spiner [isshow]="loading"></app-spiner>
+<div class="search collection">
+  <div class="margin-page flex collection-title align-items-center">
+    <i class="pi pi-search mr-2"></i>
+    <p>Tìm kiếm</p>
+  </div>
+</div>
+<div class="flex margin-page gap-4 justify-content-between my-4">
+    <input type="text" pInputText [(ngModel)]="Info" class="px-3 search-input" (keydown.enter)="NavigateToSearchPage()"/>
+    <p-button label="Tìm kiếm" severity="secondary" styleClass="p-2 w-max" (onClick)="NavigateToSearchPage()"/>
+</div>
+<ng-container *ngIf="!isnull ;else error">
+  <app-all-products [collection]="collection"></app-all-products>
+</ng-container>
+<ng-template #error>
+  <p class="margin-page font-bold text-xl mb-4">Không tìm thấy kết quả phù hợp</p>
+</ng-template>
+
+

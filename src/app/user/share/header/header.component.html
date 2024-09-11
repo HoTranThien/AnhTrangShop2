@@ -1,0 +1,74 @@
+<app-message [index]="0" #message></app-message>
+<div>
+    <div class="header flex justify-content-between bg-black-alpha-90 text-lg
+                text-white-alpha-90 align-items-center px-8 relative">
+        <div class="header-left">
+            <a routerLink="/home">
+                <img src="../../assets/AnhTrang.png" alt="" class="logo">
+            </a>
+        </div>
+        <div class="header-mid flex align-items-center justify-content-center gap-4 cursor-pointer">
+            <div class="dropdown relative">
+                <a class=" flex align-items-center h-5rem hover:text-red-400">
+                    <span class="mr-2">Bộ sưu tập</span>
+                    <i class="pi pi-angle-down ml-2"></i>
+                </a> 
+                <div class="dropdown-content absolute
+                        top-100 left-0 bg-black-alpha-80 w-max border-top-2 border-red-400 z-5">
+                        <ng-container *ngFor="let i of collection">
+                            <a class="p-3 block hover:bg-white-alpha-90 hover:text-black-alpha-90"
+                            (click)="GotoCollection('collection',i)">
+                            <span>{{i.name}}</span>
+                            </a>
+                        </ng-container>
+                </div>
+            </div>
+            <div class="dropdown relative">
+                <a (click)="GotoCollection('new')">
+                    <span class="mr-2 hover:text-red-400">Mới</span>
+                </a> 
+            </div>
+            <div class="dropdown relative">
+                <a (click)="GotoCollection('sale')">
+                    <span class="mr-2 hover:text-red-400">Sale giá rẻ</span>
+                </a> 
+            </div>
+            <div class="dropdown relative">
+                <a class=" flex align-items-center h-5rem hover:text-red-400">
+                    <span class="mr-2">Sản phẩm</span>
+                    <i class="pi pi-angle-down ml-2"></i>
+                </a> 
+                <div class="category-dropdown-content absolute gap-4
+                        top-100 left-0 bg-black-alpha-80 w-max border-top-2 border-red-400 z-5">
+                        <ng-container *ngFor="let main of category">
+                            <div>
+                                <p class="p-3 font-bold text-2xl">{{main.name}}</p>
+                                <ng-container *ngFor="let sub of main.children_category">
+                                    <a  class="p-3 block hover:bg-white-alpha-90 hover:text-black-alpha-90"
+                                    (click)="GotoCollection('children_category',sub)">
+                                    <span>{{sub.name}}</span>
+                                    </a>
+                                </ng-container>
+                            </div>
+
+                        </ng-container>
+                </div>
+            </div>
+        </div>
+        <div class="header-right flex gap-5">
+            <p  (click)="IsShownInput()"><i class="pi pi-search text-xl text-white-alpha-90 cursor-pointer"></i></p>
+            <a><i class="pi pi-user text-xl text-white-alpha-90 "></i></a>
+            <a (click)="navigateToCart()"><i class="pi pi-shopping-bag text-xl text-white-alpha-90 p-text-secondary cursor-pointer" pBadge severity="danger" value="{{badge}}"></i></a>
+        </div>
+        <div class="search" [ngClass]="{showSearchPanel:IsShown}">
+            <div class="relative">
+                <input type="text" placeholder="Nhập sản phẩm cần tìm..." (keyup.enter)="NavigateToSearchPage(search.value)" #search>
+                <a (click)="NavigateToSearchPage(search.value)"><i class="pi pi-search text-2xl font-bold text-black-alpha-90 cursor-pointer"></i></a>
+            </div>
+            <i class="close-icon pi pi-times text-2xl font-bold text-black-alpha-90 cursor-pointer ml-4"
+            (click)="IsShownInput()"></i>
+        </div>   
+    </div>
+
+</div>
+

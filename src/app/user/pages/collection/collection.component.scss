@@ -1,0 +1,11 @@
+@import "../../../../styles.scss";
+
+:host ::ng-deep{
+    .p-paginator{
+        button{
+            min-width: 2rem;
+            height: 2rem;
+        }
+    }
+}
+

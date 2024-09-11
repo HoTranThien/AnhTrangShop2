@@ -1,0 +1,23 @@
+
+<div class="margin-page">
+  <div class="card flex justify-content-center mb-4">
+    <p-paginator 
+        (onPageChange)="onPageChange($event)"
+        [first]="first" 
+        [rows]="rows" 
+        [totalRecords]="collection?.product?.length" 
+        [alwaysShow]="false"
+         />
+  </div>
+
+  <app-row-items [all]="true" [start] = "first" [sum] = "first + rows" [items]="collection?.product"></app-row-items>
+  <div class="card flex justify-content-center mb-4">
+    <p-paginator 
+        (onPageChange)="onPageChange($event)"
+        [first]="first" 
+        [rows]="rows" 
+        [totalRecords]="collection?.product?.length" 
+        [alwaysShow]="false"
+         />
+  </div>
+</div>

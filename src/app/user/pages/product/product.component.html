@@ -1,0 +1,80 @@
+
+<app-message [index]="0" #message></app-message>
+<div class="mb-5 relative">
+  <div class="margin-product-page flex font-bold justify-content-start mt-3 mb-3">
+    <a routerLink="/home"><i class="pi pi-home"></i></a>
+    <p class="mx-2">|</p>
+    <a [routerLink]="['/collection',product.collection.name|Nosign]" [title]="product.collection.name"
+        [state]="{id:product.collection.id}">{{product.collection.name}}</a>
+  </div>
+  <div class="margin-product-page main-product-page relative">
+    <div >
+      <img src="{{product.img_product[index].link}}" alt="" class="product-img">
+    </div>
+    <div class="small-img-container">
+      <ng-container *ngFor="let item of product.img_product index as i">
+        <img src="{{item.link}}" alt="" class="product-img-small" (click)="changeImg(i)" 
+        [ngClass]="{active: i === index}">
+      </ng-container>
+    </div>
+
+    <div class="w-12">
+      <div class="flex gap-4 align-items-center">
+        <p class="product-name">{{product?.name}}</p>
+        <ng-container *ngIf="product.new">
+          <p-tag severity="success" value="New"/>
+        </ng-container>
+      </div>
+      
+
+      <div>
+        <p class="font-medium mt-5 mb-3">Màu sắc: <b>{{product.productColor[indexcolor].color.name}}</b></p>
+        <div class="flex gap-3">
+          <ng-container *ngFor="let color of product.productColor; index as i">
+            <div class="color-tag" [ngStyle]="{'background-color':color.color.code}" 
+            [ngClass]="{activecolor: i == indexcolor}" (click)="changeCol(i)"></div>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <p class="font-medium mt-5 mb-3">Kích thước:</p>
+        <div class="flex gap-4">
+          <ng-container *ngFor="let size of product.productSize; index as i">
+            <div class="size-tag" [ngClass]="{activesize:i == indexsize}"
+            (click)="changesize(i)">{{size.size.name}}</div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="text-xl flex flex-column gap-3">
+        <div class="flex gap-2">
+          <p class="">Giá gốc:</p>
+          <p [ngClass]="{'sale':product.sale_cost>0}">{{product.cost|number}} đ</p>
+        </div>
+        
+        <ng-container *ngIf="product.sale_cost>0">
+          <p class="font-bold text-red-600">Giá sale: {{product.sale_cost|number}} đ</p>
+        </ng-container>
+        <div class="flex gap-2">
+          <p class="">Số lượng:</p>
+          <p>{{product.quantity|number}}</p>
+        </div>
+      </div>
+      <div class="flex gap-6 align-items-center mt-5 mb-5">
+        <app-quantity-button (sendmessagetoparent)="GetQuantity($event)"></app-quantity-button>
+        <div class="add-to-bag z-2" (click)="AddToCart()">
+          <i class="pi pi-shopping-bag"></i>
+          <p>Thêm vào giỏ hàng</p>
+        </div>
+      </div>
+    
+      <div>
+        <p class="font-bold text-xl mb-2">Mô tả sản phẩm:</p>
+        <p class="description">{{product.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

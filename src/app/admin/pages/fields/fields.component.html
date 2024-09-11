@@ -1,0 +1,134 @@
+<app-spiner [isshow]="loading"></app-spiner>
+<app-message [index]="2" #message></app-message>
+<div class="flex flex-column gap-4 container">
+  <div>
+    <div class="flex gap-2 align-items-center">
+      <p class="title">COLOR</p>
+      <p-button icon="pi pi-plus" class="title-btn" [rounded]="true" severity="secondary"
+      [outlined]="true" size="small" (onClick)="showCreateColorDialog()"/>
+      <app-color-table 
+      (sendmessagetoparent)="receiveColorMessage($event,undefined)" #createcolordialog [action]="1"></app-color-table>
+    </div>
+    
+    <div class="view">
+      <ng-container *ngFor="let item of colors, index as i">
+        <div class="tag">
+          <app-color-table
+          (sendmessagetoparent)="receiveColorMessage($event,i,item.id)" #colordialog></app-color-table>
+          <div class="tool">
+            <p-button icon="pi pi-pencil" class="item-btn" [rounded]="true" severity="success"  size="small" (onClick)="showColorDialog(i)"/>
+            <p-button icon="pi pi-times" class="item-btn" [rounded]="true" severity="danger"  size="small" (onClick)="deleteColor(item.id)"/>
+            
+          </div>
+          <div class="tag-content flex gap-2 tag-color align-items-center">
+            <p>{{item.name}}</p>
+            <p class="color w-1rem h-1rem" [style]="{backgroundColor:item.code}"></p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div>
+    <div class="flex gap-2 align-items-center">
+      <p class="title">SIZE</p>
+      <p-button icon="pi pi-plus" class="title-btn" [rounded]="true"
+                severity="secondary" [outlined]="true" size="small" (onClick)="showCreateSizeDialog()"/>
+      <app-single-table [action]="1"
+                (sendmessagetoparent)="receiveSizeMessage($event,undefined)" #createsizedialog></app-single-table>
+    </div>
+    
+    <div class="view">
+      <ng-container *ngFor="let item of sizes, index as i">
+        <div class="tag">
+          <app-single-table
+            (sendmessagetoparent)="receiveSizeMessage($event,i,item.id)" #sizedialog></app-single-table>
+          <div class="tool">
+            <p-button icon="pi pi-pencil" class="item-btn" [rounded]="true" severity="success"  size="small" (onClick)="showSizeDialog(i)"/>
+            <p-button icon="pi pi-times" class="item-btn" [rounded]="true" severity="danger"  size="small" (onClick)="deleteSize(item.id)"/>
+          </div>
+          <div class="tag-content">
+            <p>{{item.name}}</p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div>
+    
+
+  <div class="mb-4">
+    <div class="flex gap-2 align-items-center">
+      <p class="title">DELIVERY</p>
+      <p-button icon="pi pi-plus" class="title-btn" [rounded]="true" severity="secondary"
+      [outlined]="true" size="small" (onClick)="showCreateDeliveryDialog()"/>
+      <app-delivery-table 
+      (sendmessagetoparent)="receiveDeliveryMessage($event,undefined)" #createdeliverydialog [action]="1"></app-delivery-table>
+    </div>
+    
+    <div class="view">
+      <ng-container *ngFor="let item of deliveries, index as i">
+        <div class="tag">
+          <app-delivery-table
+          (sendmessagetoparent)="receiveDeliveryMessage($event,i,item.id)" #deliverydialog></app-delivery-table>
+          <div class="tool">
+            <p-button icon="pi pi-pencil" class="item-btn" [rounded]="true" severity="success"  size="small" (onClick)="showDeliveryDialog(i)"/>
+            <p-button icon="pi pi-times" class="item-btn" [rounded]="true" severity="danger"  size="small" (onClick)="deleteDelivery(item.id)"/>
+            
+          </div>
+          <div class="tag-content flex gap-2 tag-color align-items-center">
+            <p>{{item.name}}</p>
+            <p>:</p>
+            <p>{{item.cost|currency:"VND"}}</p>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="mb-4">
+    <div class="flex gap-2 align-items-center">
+      <p class="title">COLLECTION</p>
+      <p-button icon="pi pi-plus" class="title-btn" [rounded]="true" severity="secondary"
+                [outlined]="true" size="small" (onClick)="showCreateCollectionDialog()"/>
+      <app-collection-table [action]="1"
+                (sendmessagetoparent)="receiveCollectionMessage($event,undefined)" #createcollectiondialog></app-collection-table>
+    </div>
+    
+    <div class="view ">
+      <ng-container *ngFor="let item of collections, index as i">
+        <div class="tag tag-collection">
+          <app-collection-table
+          (sendmessagetoparent)="receiveCollectionMessage($event,i,item.id)" #collectiondialog></app-collection-table>
+          <div class="tool">
+            <p-button icon="pi pi-pencil" class="item-btn" [rounded]="true" severity="success"  size="small" (onClick)="showCollectionDialog(i)"/>
+            <p-button icon="pi pi-times" class="item-btn" [rounded]="true" severity="danger"  size="small" (onClick)="deleteCollection(item.id)"/>
+          </div>
+          <div class="tag-content">
+            <p>{{item.name}}</p>
+            <img src="{{item.img}}" alt="" class="img-collection">
+          </div>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+  <div>
+    <div class="flex gap-2 align-items-center">
+      <p class="title">CATEGORY</p>
+      <p-button icon="pi pi-plus" class="title-btn" [rounded]="true" severity="secondary"
+                [outlined]="true" size="small" (onClick)="showCreateMCDialog()"/>
+      <app-single-table [action]="1"
+                (sendmessagetoparent)="receiveMCMessage($event,undefined)" #createmcdialog></app-single-table>
+      
+    </div>
+    <div class="view">
+      <ng-container *ngFor="let item of categories, index as i">
+        <app-category [category]="item" (sendmessagetoparent)="receiveCategoryMessage($event)"></app-category>
+      </ng-container>
+    </div>
+
+
+
+</div>

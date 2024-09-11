@@ -1,0 +1,42 @@
+<app-message [index]="2" #message></app-message>
+<app-spiner [isshow]="loading"></app-spiner>
+<section class="wallpaper">
+  <div class="card">
+    <p-galleria 
+      [value]="images" 
+      [showItemNavigators]="true" 
+      [showThumbnails]="false" 
+      [circular]="true" 
+      [showIndicators]="true" 
+      [showIndicatorsOnItem]="true" 
+      [responsiveOptions]="responsiveOptions" 
+      [numVisible]="1"
+      [(activeIndex)]="index"
+      [containerStyle]="{ 'width': '100%'}">
+
+          <ng-template pTemplate="item" let-item>
+              <img [src]="item" class="panel-img"/>
+          </ng-template>
+          <ng-template pTemplate="thumbnail" let-item>
+              <div class="grid grid-nogutter justify-content-center">
+                  <img [src]="item" style="display: block;" />
+              </div>
+          </ng-template>
+  </p-galleria>
+  </div>
+</section>
+
+<section class="main mb-6">
+  <ng-container *ngFor="let collection of collections">
+    <div class="category margin-page mt-4">
+      <p class="text-2xl font-bold mb-3">{{collection.name}}</p>
+      <div class="w-100">
+        <app-row-items [all]="false" [items]="collection.product"></app-row-items>
+      </div>
+      <div class="w-100 flex justify-content-end">
+        <a [routerLink]="['/collection',collection.name|Nosign]" [title]="collection.name"
+         [state]="{field:'collection',id:collection.id}"  class="all-products">Tất cả sản phẩm</a>
+      </div>
+    </div>
+  </ng-container>
+</section>

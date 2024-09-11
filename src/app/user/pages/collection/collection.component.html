@@ -1,0 +1,15 @@
+<app-spiner [isshow]="loading"></app-spiner>
+<div class="collection">
+  <div class="margin-page flex collection-title align-items-center">
+    <i class="pi pi-bookmark-fill mr-2"></i>
+    <p> {{collection?.name}} </p>
+  </div>
+</div>
+<ng-container *ngIf="collection?.img">
+  <img src="{{collection?.img}}" alt="" class="panel-img my-4">
+</ng-container>
+
+<app-all-products [collection]="collection"></app-all-products>
+
+
+
