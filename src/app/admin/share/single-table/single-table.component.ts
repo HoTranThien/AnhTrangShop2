@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Category, Size } from '../../../models/fields.model';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 
 @Component({
   selector: 'app-single-table',
@@ -9,7 +9,7 @@ import { MyServiceService } from '../../../service/my-service.service';
 })
 export class SingleTableComponent implements OnInit {
 
-  constructor(private myservice:MyServiceService) { }
+  constructor(private myservice:HttpMethodService) { }
   @Input() parentvalue:Size = {name:""};
   @Input() action:number = 0;
   @Output() sendmessagetoparent = new EventEmitter();

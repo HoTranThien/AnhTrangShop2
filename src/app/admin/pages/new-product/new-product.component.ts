@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Product } from '../../../models/product.model';
 import { MessageComponent } from '../../../share/message/message.component';
@@ -15,7 +15,7 @@ import { Title } from '@angular/platform-browser';
 export class NewProductComponent implements OnInit {
 
   constructor(
-    private myservice: MyServiceService,
+    private myservice: HttpMethodService,
     private route:ActivatedRoute,
     private router:Router,
     private title:Title
@@ -25,21 +25,21 @@ export class NewProductComponent implements OnInit {
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
   @ViewChild('message') mymessage!:MessageComponent;
   loading = false;
-  product:Product = {
+  initProduct:Product = {
     name:"",
-    img_product:[],
+    imgProduct:[],
     cost:undefined,
     sale_cost:undefined,
     description:"",
     quantity:undefined,
-    new:true,
+    isnew:true,
     collection:undefined,
-    parent_category:null,
-    children_category:null,
+    parentCategory:null,
+    childrenCategory:null,
     productColor:[],
     productSize:[],
   };
-
+  product:Product = this.initProduct;
   changedimg?:string[] = [];
   imgFile?:string[] = [];
   imgs:any;
@@ -56,41 +56,59 @@ export class NewProductComponent implements OnInit {
 
   async create(){
     if(this.CheckForReadyToSend()){
-      let url_product = this.myservice.getlink('api/product/create')
+      let url_product = this.myservice.getlink('product/create')
       let formData = new FormData();
       formData.append('name',this.product.name!);
       formData.append('cost',String(this.product.cost!));
       this.product.sale_cost?formData.append('sale_cost',String(this.product.sale_cost!)):formData.append('sale_cost','0');
       formData.append('quantity',String(this.product.quantity!));
       formData.append('description',this.product.description!);
-      formData.append('new',String(this.product.new!));
+      formData.append('isnew',String(this.product.isnew!));
       formData.append('collectionId',String(this.product.collection?.id!));
-      formData.append('parent_categoryId',String(this.product.parent_category.id!));
-      formData.append('children_categoryId',String(this.product.children_category.id!));
+      formData.append('parentCategoryId',String(this.product.parentCategory.id!));
+      formData.append('childrenCategoryId',String(this.product.childrenCategory.id!));
       
       for(let i=0;i<this.product.productSize!.length;i++){
-        formData.append('sizeId',String(this.product.productSize![i].id));
+        formData.append('sizeIds',String(this.product.productSize![i].id));
       }
       for(let i=0;i<this.product.productColor!.length;i++){
-        formData.append('colorId',String(this.product.productColor![i].id));
+        formData.append('colorIds',String(this.product.productColor![i].id));
       }
 
       for(let i=0; i<this.imgFile!.length;i++){
-        formData.append('imgs',this.imgFile![i]);
+        formData.append('files',this.imgFile![i]);
       }
       this.loading = true;
       this.myservice.postDataWithImg(url_product,formData).pipe(catchError(error => {
         this.mymessage.addmessage(3);
         this.loading = false;
         return throwError(() => new Error('Something bad happened; please try again later.'));;
-      })).subscribe(()=>{this.mymessage.addmessage(2),this.loading = false})
+      })).subscribe(()=>{
+        this.resetAfterSent();
+        this.mymessage.addmessage(2);
+        this.loading = false;
+      })
     }else this.mymessage.addmessage(3);
   }
-
+resetAfterSent(){
+  this.product.name = "";
+  this.product.imgProduct = [];
+  this.product.cost = undefined;
+  this.product.sale_cost = undefined;
+  this.product.description = "";
+  this.product.quantity = undefined;
+  this.product.isnew = true;
+  this.product.collection = undefined;
+  this.product.parentCategory = null;
+  this.product.childrenCategory = null;
+  this.product.productColor = [];
+  this.product.productSize = [];
+  this.changedimg = [];
+}
 getsubcategory(e:any){
-  this.product.parent_category = e;
-  this.subcategories = e.children_category;
-  this.product.children_category=e.children_category[0];
+  this.product.parentCategory = e;
+  this.subcategories = e.childrenCategories;
+  this.product.childrenCategory=e.childrenCategories[0];
 }
 
 //#region Function for Img{
@@ -149,13 +167,13 @@ invalidCollection(){
   }else return false;
 }
 invalidMaincategory(){
-  if(!this.product.parent_category||this.myservice.isEmptyOrSpaces(this.product.parent_category.name)){
+  if(!this.product.parentCategory||this.myservice.isEmptyOrSpaces(this.product.parentCategory.name)){
     this.missInfo.maincategory = true;
     return true;
   }else return false;
 }
 invalidSubcategory(){
-  if(!this.product.children_category||this.myservice.isEmptyOrSpaces(this.product.children_category.name)){
+  if(!this.product.childrenCategory||this.myservice.isEmptyOrSpaces(this.product.childrenCategory.name)){
     this.missInfo.subcategory = true;
     return true;
   }else return false;
@@ -189,14 +207,15 @@ CheckForReadyToSend(){
 //#endregion
 
 async getfeilds(){
-  let url_category = this.myservice.getlink('api/parent_category/getallwithchildren');
-  let url_size = this.myservice.getlink('api/size/getall');
-  let url_color = this.myservice.getlink('api/color/getall');
-  let url_collection = this.myservice.getlink('api/collection/getall');
-  this.myservice.getData(url_size).subscribe(data => {this.sizedata = data;});
-  this.myservice.getData(url_color).subscribe(data => {this.colordata = data;});
-  this.myservice.getData(url_collection).subscribe(data=>this.allCollections = data);
-  this.category = await lastValueFrom(this.myservice.getData(url_category));
+  let url_category = this.myservice.getlink('parentcategory/getall');
+  let url_size = this.myservice.getlink('size/getall');
+  let url_color = this.myservice.getlink('color/getall');
+  let url_collection = this.myservice.getlink('collection/getall');
+  this.myservice.getData(url_size).subscribe((data:any) => {this.sizedata = data.data;});
+  this.myservice.getData(url_color).subscribe((data:any) => {this.colordata = data.data;});
+  this.myservice.getData(url_collection).subscribe((data:any)=>this.allCollections = data.data);
+  let allCategory:any = await lastValueFrom(this.myservice.getData(url_category));
+   this.category = allCategory.data;
 }
 mydata:any;
   ngOnInit() {

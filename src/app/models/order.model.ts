@@ -1,7 +1,8 @@
 export class Order{
 
     constructor(
-        public products:ProductOrder[],
+        public productOrder:ProductOrder[],
+        public user_id:number,
         public customer_name:string,
         public customer_tel:string,
         public customer_address:string,
@@ -11,7 +12,8 @@ export class Order{
         public status:string = "NEW_ORDER",
         public note:string = "",
     ){
-        this.products = products,
+        this.user_id = user_id
+        this.productOrder = productOrder,
         this.customer_name = customer_name;
         this.customer_tel = customer_tel;
         this.customer_address = customer_address;

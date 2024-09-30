@@ -1,9 +1,9 @@
 <div class="item relative">
   <a class="item-panel" [routerLink]="['/product',myitem.name|Nosign]" [state]="{product:myitem}">
-    <div class="item-img" style="background-image: url('{{myitem.img_product[0].link}}')"></div>
-    <div class="item-img" style="background-image: url('{{myitem.img_product[1].link}}')"></div>
+    <div class="item-img" style="background-image: url('{{myitem.imgProduct[0].link}}')"></div>
+    <div class="item-img" style="background-image: url('{{myitem.imgProduct[1].link}}')"></div>
   </a>
-  <ng-container *ngIf="myitem.new">
+  <ng-container *ngIf="myitem.isnew">
     <div class="absolute top-0 right-0">
       <p-tag severity="success" value="New"/>
     </div>

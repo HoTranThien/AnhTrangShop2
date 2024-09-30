@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 import { Order } from '../../../models/order.model';
 import { Status } from '../../../models/fields.model';
 import { SpinerComponent } from '../../../share/spiner/spiner.component';
@@ -14,46 +14,47 @@ import { Title } from '@angular/platform-browser';
 })
 export class AdOrderComponent implements OnInit {
 
-  constructor(private myservice:MyServiceService, private title:Title) { 
+  constructor(private myservice:HttpMethodService, private title:Title) { 
     this.title.setTitle("Orders")
   }
   @ViewChild('message') mymessage!:MessageComponent;
   loading = false;
   orders:any;
-  status:Status = {status:[]};
+  status:any = [];
   selectedStatus:string = "";
   loaddata(){
     this.loading = true;
-    let order_url = this.myservice.getlink('api/order/getall');
-    this.myservice.getData(order_url).subscribe(data=> {
-      this.orders = data;
+    let order_url = this.myservice.getlink('order/getall');
+    this.myservice.getData(order_url).subscribe((data:any) => {
+      this.orders = data.data;
       this.loading = false;
     })
 
-    let status_url = this.myservice.getlink('api/order/status');
+    let status_url = this.myservice.getlink('order/status');
     this.myservice.getData(status_url).subscribe((data:any) => {
-      this.status = data;
+      this.status = data.data;
     })
   }
   deleteOrder(id:number){
-    let url = this.myservice.getlink('api/order/delete',id);
-    this.loading = true;
-    this.myservice.deleteData(url).pipe(catchError(error => {
-      this.mymessage.addmessage(3);
-      this.loading = false;
-      return throwError(() => new Error('Something bad happened; please try again later.'));
-    })).subscribe(()=>{
-      let index = this.orders.findIndex((order:any) => {return order.id == id});
-      this.orders.splice(index,1);
-      this.mymessage.addmessage(2);
-      this.loading = false;
-    })
+    // let url = this.myservice.getlink('order/delete',id);
+    // this.loading = true;
+    // this.myservice.deleteData(url).pipe(catchError(error => {
+    //   this.mymessage.addmessage(3);
+    //   this.loading = false;
+    //   return throwError(() => new Error('Something bad happened; please try again later.'));
+    // })).subscribe(()=>{
+    //   let index = this.orders.findIndex((order:any) => {return order.id == id});
+    //   this.orders.splice(index,1);
+    //   this.mymessage.addmessage(2);
+    //   this.loading = false;
+    // })
   }
   updateStatus(status:string,id:number){
-    let url = this.myservice.getlink('api/order/updatestatus',id);
+    let url = this.myservice.getlink('order/update',id);
     this.loading = true;
     this.myservice.putData(url,{status:status}).pipe(catchError(error => {
       this.mymessage.addmessage(3);
+
       this.loading = false;
       return throwError(() => new Error('Something bad happened; please try again later.'));
     })).subscribe(()=>{

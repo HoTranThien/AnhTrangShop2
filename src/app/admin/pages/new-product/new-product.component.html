@@ -35,7 +35,7 @@
       <div class="flex-auto">
         <div class="flex flex-column justify-content-center align-items-center">
           <label for="integer" class="font-bold block mb-4"> New </label>
-          <p-checkbox [(ngModel)]="product.new" [binary]="true"  inputId="binary" />
+          <p-checkbox [(ngModel)]="product.isnew" [binary]="true"  inputId="binary" />
         </div>
 
       </div>
@@ -73,7 +73,7 @@
       </div>
       <div class="flex-auto">
           <label for="alphabetic" class="font-bold block mb-2"> Subcategory </label>
-          <p-dropdown [options]="subcategories" [(ngModel)]="product.children_category" optionLabel="name" 
+          <p-dropdown [options]="subcategories" [(ngModel)]="product.childrenCategory" optionLabel="name" 
             placeholder="Select Subcategory" />
       </div>
       

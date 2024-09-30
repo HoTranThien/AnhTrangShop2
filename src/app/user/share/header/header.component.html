@@ -43,9 +43,9 @@
                         <ng-container *ngFor="let main of category">
                             <div>
                                 <p class="p-3 font-bold text-2xl">{{main.name}}</p>
-                                <ng-container *ngFor="let sub of main.children_category">
+                                <ng-container *ngFor="let sub of main.childrenCategories">
                                     <a  class="p-3 block hover:bg-white-alpha-90 hover:text-black-alpha-90"
-                                    (click)="GotoCollection('children_category',sub)">
+                                    (click)="GotoCollection('childrencategory',sub)">
                                     <span>{{sub.name}}</span>
                                     </a>
                                 </ng-container>
@@ -55,15 +55,40 @@
                 </div>
             </div>
         </div>
-        <div class="header-right flex gap-5">
+        <div class="header-right flex gap-5 align-items-center">
             <p  (click)="IsShownInput()"><i class="pi pi-search text-xl text-white-alpha-90 cursor-pointer"></i></p>
-            <a><i class="pi pi-user text-xl text-white-alpha-90 "></i></a>
+            <!-- LogIn/Register -->
+            <div *ngIf="userName != null; else elseBlock">
+                <div class="dropdown relative">
+                    <a class="username cursor-pointer">
+                        <p>{{userName|FisrtCharName}}</p>
+                    </a>
+                    <div class="dropdown-content absolute
+                        top-100 left-0 bg-black-alpha-80 w-max border-top-2 border-red-400 z-5">
+                        <a class="p-3 block hover:bg-white-alpha-90 hover:text-black-alpha-90 cursor-pointer"
+                        (click)="goToUserDetail(userName)">
+                        <span>Xem hồ sơ</span>
+                        </a>
+                        <a class="p-3 block hover:bg-white-alpha-90 hover:text-black-alpha-90 cursor-pointer"
+                        (click)="Logout()">
+                        <span>Đăng xuất</span>
+                        </a>
+                </div>
+                </div>
+
+            </div>
+              <ng-template #elseBlock>
+                <a (click)="navigateToLogIn()"><i class="pi pi-user text-xl text-white-alpha-90 cursor-pointer"></i></a>
+              </ng-template>
+            
+            <!-- Cart -->
             <a (click)="navigateToCart()"><i class="pi pi-shopping-bag text-xl text-white-alpha-90 p-text-secondary cursor-pointer" pBadge severity="danger" value="{{badge}}"></i></a>
         </div>
         <div class="search" [ngClass]="{showSearchPanel:IsShown}">
             <div class="relative">
-                <input type="text" placeholder="Nhập sản phẩm cần tìm..." (keyup.enter)="NavigateToSearchPage(search.value)" #search>
-                <a (click)="NavigateToSearchPage(search.value)"><i class="pi pi-search text-2xl font-bold text-black-alpha-90 cursor-pointer"></i></a>
+                <input type="text" placeholder="Nhập sản phẩm cần tìm..." (keyup.enter)="navigateToSearchPage(search.value)" #search>
+                <!-- Search -->
+                <a (click)="navigateToSearchPage(search.value)"><i class="pi pi-search text-2xl font-bold text-black-alpha-90 cursor-pointer"></i></a>
             </div>
             <i class="close-icon pi pi-times text-2xl font-bold text-black-alpha-90 cursor-pointer ml-4"
             (click)="IsShownInput()"></i>

@@ -1,23 +1,36 @@
 
 <div class="margin-page">
-  <div class="card flex justify-content-center mb-4">
-    <p-paginator 
-        (onPageChange)="onPageChange($event)"
-        [first]="first" 
-        [rows]="rows" 
-        [totalRecords]="collection?.product?.length" 
-        [alwaysShow]="false"
-         />
-  </div>
 
-  <app-row-items [all]="true" [start] = "first" [sum] = "first + rows" [items]="collection?.product"></app-row-items>
-  <div class="card flex justify-content-center mb-4">
-    <p-paginator 
-        (onPageChange)="onPageChange($event)"
-        [first]="first" 
-        [rows]="rows" 
-        [totalRecords]="collection?.product?.length" 
-        [alwaysShow]="false"
-         />
-  </div>
+  <ng-container *ngIf="!notFound ;else error">
+    <div class="card flex justify-content-center mb-4">
+      <p-paginator 
+          (onPageChange)="onPageChange($event)"
+          [first]="first" 
+          [rows]="rows" 
+          [totalRecords]="total" 
+          [alwaysShow]="false"
+           />
+    </div>
+
+    <div class="panel flex flex-wrap w-100"> 
+      <ng-container  *ngFor="let item of collection; index as i">
+        <app-item [myitem] = "item" class="mb-3"></app-item>
+      </ng-container>
+    </div>
+
+    <div class="card flex justify-content-center mb-4">
+      <p-paginator 
+          (onPageChange)="onPageChange($event)"
+          [first]="first" 
+          [rows]="rows" 
+          [totalRecords]="total" 
+          [alwaysShow]="false"
+           />
+    </div>
+
+  </ng-container>
+  <ng-template #error>
+    <p class="margin-page font-bold text-xl mb-4 mt-4">Không tìm thấy kết quả phù hợp</p>
+  </ng-template>
 </div>
+ 

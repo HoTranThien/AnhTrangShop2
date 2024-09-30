@@ -9,10 +9,10 @@
   </div>
   <div class="margin-product-page main-product-page relative">
     <div >
-      <img src="{{product.img_product[index].link}}" alt="" class="product-img">
+      <img src="{{product.imgProduct[index].link}}" alt="" class="product-img">
     </div>
     <div class="small-img-container">
-      <ng-container *ngFor="let item of product.img_product index as i">
+      <ng-container *ngFor="let item of product.imgProduct index as i">
         <img src="{{item.link}}" alt="" class="product-img-small" (click)="changeImg(i)" 
         [ngClass]="{active: i === index}">
       </ng-container>
@@ -21,17 +21,17 @@
     <div class="w-12">
       <div class="flex gap-4 align-items-center">
         <p class="product-name">{{product?.name}}</p>
-        <ng-container *ngIf="product.new">
+        <ng-container *ngIf="product.isnew">
           <p-tag severity="success" value="New"/>
         </ng-container>
       </div>
       
 
       <div>
-        <p class="font-medium mt-5 mb-3">Màu sắc: <b>{{product.productColor[indexcolor].color.name}}</b></p>
+        <p class="font-medium mt-5 mb-3">Màu sắc: <b>{{product.productColor[indexcolor].name}}</b></p>
         <div class="flex gap-3">
           <ng-container *ngFor="let color of product.productColor; index as i">
-            <div class="color-tag" [ngStyle]="{'background-color':color.color.code}" 
+            <div class="color-tag" [ngStyle]="{'background-color':color.code}" 
             [ngClass]="{activecolor: i == indexcolor}" (click)="changeCol(i)"></div>
           </ng-container>
         </div>
@@ -42,7 +42,7 @@
         <div class="flex gap-4">
           <ng-container *ngFor="let size of product.productSize; index as i">
             <div class="size-tag" [ngClass]="{activesize:i == indexsize}"
-            (click)="changesize(i)">{{size.size.name}}</div>
+            (click)="changesize(i)">{{size.name}}</div>
           </ng-container>
         </div>
       </div>

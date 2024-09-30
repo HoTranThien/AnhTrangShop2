@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable, Output } from '@angular/core';
 import { SearchComponent } from '../user/pages/search/search.component';
 import { EventEmitter } from 'stream';
@@ -6,12 +6,12 @@ import { EventEmitter } from 'stream';
 @Injectable({
   providedIn: 'root'
 })
-export class MyServiceService {
+export class HttpMethodService {
 
 constructor(private http:HttpClient) { }
 //HOST
-//HOST:string = "http://localhost:3000";
-HOST:string = "https://anhtrangshopapi.onrender.com";
+HOST:string = "http://localhost:8080/api/v1";
+//HOST:string = "https://anhtrangshopapi.onrender.com";
 
 getlink(link:string,id?:number){
   if(id)return this.HOST + "/" + link + "/" + id;
@@ -31,6 +31,10 @@ postDataWithImg(url: string,body:any){
 //Get data
 getData(url: string){
   return this.http.get(url);
+}
+getDataWithPageRequest(url:string, page:number,limit:number){
+  let params = new HttpParams().set("page",page).set("limit",limit);
+  return this.http.get(url,{params});
 }
 //Update data
 putData(url: string,body:any){

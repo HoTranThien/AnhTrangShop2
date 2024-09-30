@@ -2,27 +2,32 @@
 <app-spiner [isshow]="loading"></app-spiner>
 <form [formGroup]="Customer" (submit)="save()">
   <div class="margin-page cart-page mb-4">
-    <div class="flex justify-content-between w-12">
-      <div class="mb-4 flex gap-4 align-items-center">
-        <p-button icon="pi pi-arrow-left" [rounded]="true" severity="help" routerLink="/admin/order" />
-        <p-button icon="pi pi-pencil" [rounded]="true" severity="primary" (onClick)="edit()" [disabled]="!isreadonly" />
-        <ng-container *ngIf="!isreadonly">
-          <div class="flex gap-4">
-            <p-button icon="pi pi-check" [rounded]="true" severity="success" type="submit" />
-            <p-button icon="pi pi-times" [rounded]="true" severity="secondary" (onClick)="cancel()" />
-          </div>
-        </ng-container>
-      </div>
+    <div class="flex justify-content-between w-12 mb-4">
+      <ng-container *ngIf="isAdmin">
+        <div class=" flex gap-4 align-items-center">
+          <p-button icon="pi pi-arrow-left" [rounded]="true" severity="help" routerLink="/admin/order" />
+          <p-button icon="pi pi-pencil" [rounded]="true" severity="primary" (onClick)="edit()" [disabled]="!isreadonly" />
+          <ng-container *ngIf="!isreadonly">
+            <div class="flex gap-4">
+              <p-button icon="pi pi-check" [rounded]="true" severity="success" type="submit" />
+              <p-button icon="pi pi-times" [rounded]="true" severity="secondary" (onClick)="cancel()" />
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+      
       <div class="flex gap-2 align-items-center">
+        <p class=" mr-2"><b>CODE:</b> {{MyOrder.code}}</p>
         <p class=" mr-2"><b>DATE:</b> {{MyOrder.createdAt|date}}</p>
         <p class="font-bold">STATUS:</p>
         <p-dropdown 
-        [options]="status.status" 
+        [options]="status" 
         formControlName="status"
-        [class.new]="Customer.get('status')?.value == status.status[0]"
-        [class.delivery]="Customer.get('status')?.value == status.status[1]"
-        [class.done]="Customer.get('status')?.value == status.status[2]"
-        [class.cancel]="Customer.get('status')?.value == status.status[3]"
+        
+        [class.new]="Customer.get('status')?.value == status[0]"
+        [class.delivery]="Customer.get('status')?.value == status[1]"
+        [class.done]="Customer.get('status')?.value == status[2]"
+        [class.cancel]="Customer.get('status')?.value == status[3]"
         [readonly]="isreadonly"
         />
       </div>
@@ -32,11 +37,11 @@
       <div class="detail-cart w-6 pr-2">
         <p class="cart-title cart-title-detail pb-4">CHI TIẾT ĐƠN HÀNG</p>
         <div>
-          <ng-container *ngFor="let item of MyOrder.product, index as i">
+          <ng-container *ngFor="let item of MyOrder.productOrder, index as i">
             <div>
               <div class="flex product py-2 gap-4">
                 <div class="flex flex-column align-items-center justify-content-center">
-                  <img src="{{item?.product?.img_product[0].link}}" alt="" class="product-thumbnail">
+                  <img src="{{item?.product.img}}" alt="" class="product-thumbnail">
                 </div>
                <div class="w-12">
                 <p class="font-bold text-lg">{{item?.product?.name}}</p>
@@ -102,18 +107,21 @@
               [autoResize]="true">
             </textarea>
           </div>
-        <div class="flex flex-column gap-2 mt-3 pt-3 note">
-          <label for="username">Note</label>
-          <textarea 
-            pInputTextarea
-            rows="3" 
-            cols="10" 
-            class="p-1" 
-            [readOnly]="isreadonly"
-            formControlName="note"
-            [autoResize]="true">
-          </textarea>
-        </div>
+          <ng-container *ngIf="isAdmin">
+            <div class="flex flex-column gap-2 mt-3 pt-3 note">
+              <label for="username">Note</label>
+              <textarea 
+                pInputTextarea
+                rows="3" 
+                cols="10" 
+                class="p-1" 
+                [readOnly]="isreadonly"
+                formControlName="note"
+                [autoResize]="true">
+              </textarea>
+            </div>
+          </ng-container>
+        
       </div>
     </div>
   </div>

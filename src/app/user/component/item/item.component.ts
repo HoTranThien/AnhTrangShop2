@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 import { Product } from '../../../models/product.model';
 
 
@@ -10,7 +10,7 @@ import { Product } from '../../../models/product.model';
 })
 export class ItemComponent implements OnInit {
 
-  constructor(private myservice: MyServiceService) { }
+  constructor(private myservice: HttpMethodService) { }
   @Input() myitem:any;
   ngOnInit() {
 

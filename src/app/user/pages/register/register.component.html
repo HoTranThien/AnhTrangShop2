@@ -1,0 +1,65 @@
+<div class="flex align-items-center justify-content-center bg-indigo-600">
+  <app-message [index]="2" #message></app-message>
+  <form [formGroup]="registerForm" (ngSubmit)="register()" class="register">
+    <p class=" mb-5 font-bold text-xl">ĐĂNG KÍ TÀI KHOẢN</p>
+    <div>
+      <div class="flex gap-2 mb-3 flex-column">
+        <label class="text-sm">Số điện thoại</label>
+        <input 
+            pInputText
+            formControlName="phoneNumber" />
+            <label class="text-xs text-red-500">*Is required</label>
+      </div>
+      <div class="flex flex-column gap-2 mb-3">
+        <label class="text-sm">Mật khẩu</label>
+        <p-password [toggleMask]="true" [feedback]="false"
+            formControlName="password"
+        />
+        <label class="text-xs text-red-500" >*Is required</label>
+          
+      </div>
+      <div class="flex flex-column gap-2 mb-3">
+        <label class="text-sm">Nhập lại mật khẩu</label>
+        <p-password [toggleMask]="true" [feedback]="false"
+            formControlName="recheckPassword"
+        />
+        <label class="text-xs text-red-500" >*Is required</label>
+      </div>
+      <div class="border-solid border-indigo-500 my-3 border-1"></div>
+      <div class="flex flex-column gap-2 mb-3">
+        <label class="text-sm">Tên Khách Hàng</label>
+        <input 
+        pInputText
+        formControlName="fullname" />
+        <label class="text-xs text-red-500" >*Is required</label>
+          
+      </div>
+      <div class="flex flex-column gap-2 mb-3">
+        <label class="text-sm">Email</label>
+        <input 
+        pInputText
+        formControlName="email" />
+        <label class="text-xs text-red-500" >*Is required</label>
+          
+      </div>
+      <div class="flex flex-column gap-2 mb-3">
+        <label class="text-sm">Địa Chỉ</label>
+        <input 
+        pInputText
+        formControlName="address" />
+          
+      </div>
+  
+      <div>
+        <p-button label="ĐĂNG KÍ" type="submit" severity="primary" styleClass="p-2 w-12 my-2" />
+      </div>
+    </div>
+    <div class="flex gap-2 align-items-center justify-content-center mt-3">
+      <p class="text-xs">Bạn đã có tài khoản?</p>
+      <a class="text-xs font-bold text-indigo-500 cursor-pointer"
+        routerLink="/login"
+      >Đăng nhập</a>
+    </div>
+  </form>
+</div>
+

@@ -33,6 +33,7 @@ import { ProductDetailComponent } from './pages/product-detail/product-detail.co
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { NewProductComponent } from './pages/new-product/new-product.component';
 import { OrderDetailComponent } from './pages/order-detail/order-detail.component';
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   imports: [
@@ -57,6 +58,7 @@ import { OrderDetailComponent } from './pages/order-detail/order-detail.componen
     InputTextareaModule,
     ProgressSpinnerModule,
     ReactiveFormsModule,
+    PaginatorModule
   ],
   declarations: [
     AdminComponent,
@@ -73,6 +75,7 @@ import { OrderDetailComponent } from './pages/order-detail/order-detail.componen
     CategoryComponent,
     NewProductComponent,
     OrderDetailComponent,
-  ]
+  ],
+  exports:[OrderDetailComponent]
 })
 export class AdminModule { }

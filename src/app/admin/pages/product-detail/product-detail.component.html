@@ -22,6 +22,7 @@
     <p-dropdown 
     [options]="allCollections"  [readonly]="isreadonly"
     [(ngModel)]="product.collection" 
+    placeholder="{{product.collection?.name}}"
     optionLabel="name"  />
 </div>
   
@@ -40,7 +41,7 @@
       <div class="flex-auto">
         <div class="flex flex-column justify-content-center align-items-center">
           <label for="integer" class="font-bold block mb-4"> New </label>
-          <p-checkbox [(ngModel)]="product.new" [binary]="true" [readonly]="isreadonly" inputId="binary" />
+          <p-checkbox [(ngModel)]="product.isnew" [binary]="true" [readonly]="isreadonly" inputId="binary" />
         </div>
 
       </div>
@@ -78,7 +79,7 @@
       </div>
       <div class="flex-auto">
           <label for="alphabetic" class="font-bold block mb-2"> Subcategory </label>
-          <p-dropdown [options]="subcategories" [(ngModel)]="product.children_category" optionLabel="name" 
+          <p-dropdown [options]="subcategories" [(ngModel)]="product.childrenCategory" optionLabel="name" 
             placeholder="{{subcategory}}" [readonly]="isreadonly"/>
       </div>
       
@@ -96,7 +97,7 @@
     </div>
     
     <div class="flex flex-wrap gap-3 mb-4 img-container align-items-center" >
-      <ng-container *ngFor="let item of product.img_product,index as i">
+      <ng-container *ngFor="let item of product.imgProduct,index as i">
         <div class="img-tag">
           <img src="{{item.link}}" alt="" class="img">
           <p-button icon="pi pi-times-circle" [rounded]="true" severity="danger" class="img-close-btn"

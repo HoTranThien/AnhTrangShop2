@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MyServiceService } from '../../service/my-service.service';
+import { HttpMethodService } from '../../service/HttpMethod.service';
+import { title } from 'process';
 
 @Component({
   selector: 'app-message',
@@ -8,7 +9,7 @@ import { MyServiceService } from '../../service/my-service.service';
 })
 export class MessageComponent implements OnInit {
 
-  constructor(private myservice: MyServiceService) { }
+  constructor(private myservice: HttpMethodService) { }
   @Input() index:number = 0;
   @Input() top:number = 0;
   @Input() right:string = '0';
@@ -24,6 +25,22 @@ export class MessageComponent implements OnInit {
 
   addmessage(index:number){
     this.messages.push(this.message[index]);
+    setTimeout(() => {
+      this.messages.splice(0,1);
+    }, 3000);
+  }
+  addCustomMessage(message:string,state:number){
+    let title:string = "";
+    let status:string = "";
+    if(state == 0){
+      title = "Notification";
+      status = "good";
+    }
+    else{
+      title = "Error";
+      status = "bad";
+    }
+    this.messages.push({title:title,detail:message,status:status});
     setTimeout(() => {
       this.messages.splice(0,1);
     }, 3000);

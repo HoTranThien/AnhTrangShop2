@@ -5,7 +5,6 @@ import { HeaderComponent } from './share/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { FooterComponent } from './share/footer/footer.component';
 import { ItemComponent } from './component/item/item.component';
-import { RowItemsComponent } from './component/row-items/row-items.component';
 import { ProductComponent } from './pages/product/product.component';
 import { CollectionComponent } from './pages/collection/collection.component';
 import { QuantityButtonComponent } from './component/quantity-button/quantity-button.component';
@@ -32,6 +31,12 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ShareModule } from '../share/share.module';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { TagModule } from 'primeng/tag';
+import { LoginComponent } from './pages/login/login.component';
+import { PasswordModule } from 'primeng/password';
+import { RegisterComponent } from './pages/register/register.component';
+import { UserDetailComponent } from './pages/userDetail/userDetail.component';
+import { AdminModule } from '../admin/admin.module';
+import { UserOrderDetailComponent } from './pages/userOrderDetail/userOrderDetail.component';
 
 @NgModule({
   imports: [
@@ -57,6 +62,8 @@ import { TagModule } from 'primeng/tag';
     RadioButtonModule,
     TagModule,
     ReactiveFormsModule,
+    PasswordModule,
+    AdminModule,
   ],
   declarations: [
     UserComponent,
@@ -64,14 +71,16 @@ import { TagModule } from 'primeng/tag';
     HomeComponent,
     FooterComponent,
     ItemComponent,
-    RowItemsComponent,
     ProductComponent,
     CollectionComponent,
     QuantityButtonComponent,
     AllProductsComponent,
     SearchComponent,
     CartDetailComponent,
-    
+    LoginComponent,
+    RegisterComponent,
+    UserDetailComponent,
+    UserOrderDetailComponent,
   ]
 })
 export class UserModule { }

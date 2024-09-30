@@ -1,0 +1,101 @@
+<app-message [index]="2" #message></app-message>
+
+<form [formGroup]="User" (submit)="save()">
+  <div class="margin-page cart-page my-4">
+    
+    <div class="flex main-cart gap-6">
+      <div class="detail-cart w-6 pr-2">
+        <p class="cart-title cart-title-detail pb-4">ĐƠN HÀNG ĐÃ ĐẶT</p>
+        <div>
+          <ng-container *ngFor="let order of orders, index as i">
+            <div class="order">
+              <div class="flex gap-4 align-items-center justify-content-between">
+                <a
+                class="font-bold cursor-pointer underline"
+                [routerLink]="[currentNavigation,order.code]" [state]="{id:order.id}"
+                >#{{order.code}}</a>
+                <p>{{order.createdAt|date}}</p>
+                <p-tag severity="success" value="{{order.status}}"/>
+              </div>
+              <ng-container *ngFor="let po of order.productOrder, index as i">
+                <div class="flex gap-4 align-items-center">
+                  <img src="{{po.product.img}}" alt="" class="product-thumbnail">
+                  <div>
+                    <p>{{po.product.name}}</p>
+                    <p>[{{po.size}}, {{po.color}}] : <b>{{po.quantity}}</b></p>
+                  </div>
+                </div>
+              </ng-container>
+              <div class="flex justify-content-between ">
+                <p>{{order.delivery}}</p>
+                <p class="font-bold">Tổng: {{order.total|number}} đ</p>
+              </div>
+
+            </div>
+          </ng-container>
+        </div>
+        
+      </div>
+      
+      <div class="customer-info w-6 pl-2 h-auto">
+        <div class="flex gap-4 align-items-center mb-4">
+          <p class="cart-title">THÔNG TIN KHÁCH HÀNG</p>
+          <div class="flex align-items-center">
+            <div class="flex gap-4 align-items-center">
+              <p-button icon="pi pi-pencil" [rounded]="true" severity="primary" (onClick)="edit()" [disabled]="!isreadonly" />
+              <ng-container *ngIf="!isreadonly">
+                <div class="flex gap-4 align-items-center">
+                  <p-button icon="pi pi-check" [rounded]="true" severity="success" type="submit" />
+                  <p-button icon="pi pi-times" [rounded]="true" severity="secondary" (onClick)="cancel()" />
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Tên khách hàng</label>
+            <input 
+                [readOnly]="isreadonly"
+                pInputText
+                formControlName="fullname" />
+        </div>
+        <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Điện thoại</label>
+            <input 
+              pInputText
+              [readOnly]="isreadonly"
+              formControlName="phoneNumber" />
+        </div>
+        <div class="flex flex-column gap-2 mb-3  w-full">
+            <label for="username">Thay đổi mật khẩu</label>
+            <p-password [toggleMask]="true" [feedback]="false"
+            [disabled]="isreadonly" 
+            formControlName="password"/>
+        </div>
+        <div class="flex flex-column gap-2 mb-3  w-full">
+          <label for="username">Nhập lại mật khẩu</label>
+          <p-password [toggleMask]="true" [feedback]="false"
+          [disabled]="isreadonly" 
+          formControlName="recheckPassword"/>
+      </div>
+
+        <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Email</label>
+            <input 
+            pInputText
+            [readOnly]="isreadonly"
+            formControlName="email" />
+        </div>
+        <div class="flex flex-column gap-2 mb-3">
+            <label for="username">Địa chỉ</label>
+            <input 
+            pInputText
+            [readOnly]="isreadonly"
+            formControlName="address" />
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+

@@ -12,9 +12,9 @@
 >   
     <ng-template pTemplate="header">
         <tr>
+            <th style="width:20%">Code</th>
             <th style="width:20%,">Customer</th>
             <th style="width:15%">Tel</th>
-            <th style="width:20%">Address</th>
             <th style="width:10%">Total</th>
             <th style="width:5%">Express</th>
             <th style="width:5%">Status</th>
@@ -25,9 +25,9 @@
     </ng-template>
     <ng-template pTemplate="body" let-order>
         <tr>
-            <td>{{ order.customer_name }}</td>
-            <td>{{ order.customer_tel }}</td>
-            <td>{{ order.customer_address }}</td>
+            <td>{{ order.code }}</td>
+            <td>{{ order.customerName }}</td>
+            <td>{{ order.customerTel }}</td>
             <td>{{ order.total|number}}đ</td>
             <td>
               <ng-container *ngIf="order.delivery.id==2">
@@ -38,12 +38,12 @@
             </td>
              <td>
                 <p-dropdown 
-                [options]="status.status" 
+                [options]="status" 
                 [(ngModel)]="order.status"
-                [class.new]="order.status == status.status[0]"
-                [class.delivery]="order.status == status.status[1]"
-                [class.done]="order.status == status.status[2]"
-                [class.cancel]="order.status == status.status[3]"
+                [class.new]="order.status == status[0]"
+                [class.delivery]="order.status == status[1]"
+                [class.done]="order.status == status[2]"
+                [class.cancel]="order.status == status[3]"
                 (onChange)="updateStatus(order.status,order.id)"
                 />
              </td>

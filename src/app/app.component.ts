@@ -1,6 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { SearchComponent } from './user/pages/search/search.component';
-import { MyServiceService } from './service/my-service.service';
+import { HttpMethodService } from './service/HttpMethod.service';
 import { CartDetailComponent } from './user/pages/Cart-detail/Cart-detail.component';
 import { ProductComponent } from './user/pages/product/product.component';
 
@@ -10,7 +10,7 @@ import { ProductComponent } from './user/pages/product/product.component';
   styleUrl: './app.component.scss',
 })
 export class AppComponent{
-  constructor(private myservice:MyServiceService){
+  constructor(private myservice:HttpMethodService){
   }
   title = 'AnhTrangShop';
 }

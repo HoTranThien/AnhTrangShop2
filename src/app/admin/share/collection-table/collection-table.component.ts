@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Image } from 'primeng/image';
 import { Collection } from '../../../models/fields.model';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 
 @Component({
   selector: 'app-collection-table',
@@ -10,8 +10,8 @@ import { MyServiceService } from '../../../service/my-service.service';
 })
 export class CollectionTableComponent implements OnInit {
 
-  constructor(private myservice:MyServiceService) { }
-  @Input() parentvalue:Collection = {name:"",img:"",imgFile:undefined};
+  constructor(private myservice:HttpMethodService) { }
+  @Input() parentvalue:Collection = {name:"",img:"",file:undefined};
   @Input() action:number = 0;
   @Output() sendmessagetoparent = new EventEmitter();
   @ViewChild('fileInput', { static: false }) fileInput!: ElementRef;
@@ -45,7 +45,7 @@ export class CollectionTableComponent implements OnInit {
   }
   onFileSelected(input:any){
     if (input.target.files && input.target.files[0]) {
-      this.changedvalue.imgFile= input.target.files[0];
+      this.changedvalue.file= input.target.files[0];
       var reader = new FileReader();
       reader.onload = (e:any) => {
         this.changedvalue.img = e.target?.result;

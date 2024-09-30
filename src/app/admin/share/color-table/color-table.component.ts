@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Color } from '../../../models/fields.model';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 
 @Component({
   selector: 'app-color-table',
@@ -9,7 +9,7 @@ import { MyServiceService } from '../../../service/my-service.service';
 })
 export class ColorTableComponent implements OnInit {
 
-  constructor(private myservice:MyServiceService) { }
+  constructor(private myservice:HttpMethodService) { }
 
   @Input() parentvalue:Color = {name:"",code:""};
   @Input() action:number = 0;

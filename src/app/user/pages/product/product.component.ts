@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 import { Message } from 'primeng/api';
 import { CartService } from '../../../service/cart.service';
 import { BadgeService } from '../../../service/badge.service';
@@ -15,7 +15,7 @@ import { SpinerComponent } from '../../../share/spiner/spiner.component';
 
 export class ProductComponent implements OnInit {
 
-  constructor(private myservice:MyServiceService,
+  constructor(private myservice:HttpMethodService,
               private cart:CartService,
               private badge:BadgeService,
               private title:Title,
@@ -49,9 +49,9 @@ export class ProductComponent implements OnInit {
     let myproduct = {
       id:this.product.id,
       name:this.product.name,
-      img:this.product.img_product[0].link,
-      color:this.product.productColor[this.indexcolor].color,
-      size:this.product.productSize[this.indexsize].size,
+      img:this.product.imgProduct[0].link,
+      color:this.product.productColor[this.indexcolor],
+      size:this.product.productSize[this.indexsize],
       quantity:this.quantity,
       cost:this.product.sale_cost?this.product.sale_cost:this.product.cost,
     };

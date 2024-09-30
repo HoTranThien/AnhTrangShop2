@@ -24,7 +24,7 @@
   </div>
 
   <div class="children-container">
-    <ng-container *ngFor="let child of category.children_category , index as j">
+    <ng-container *ngFor="let child of category.childrenCategories , index as j">
       <div class="tag">
         <app-single-table
         (sendmessagetoparent)="receiveSCMessage($event,child.id,j)" #scdialog></app-single-table>

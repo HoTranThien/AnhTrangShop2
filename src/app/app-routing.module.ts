@@ -14,19 +14,30 @@ import { ProductDetailComponent } from './admin/pages/product-detail/product-det
 import { NewProductComponent } from './admin/pages/new-product/new-product.component';
 import { UserComponent } from './user/user.component';
 import { OrderDetailComponent } from './admin/pages/order-detail/order-detail.component';
+import { LoginComponent } from './user/pages/login/login.component';
+import { RegisterComponent } from './user/pages/register/register.component';
+import { UserDetailComponent } from './user/pages/userDetail/userDetail.component';
+import { UserOrderDetailComponent } from './user/pages/userOrderDetail/userOrderDetail.component';
+import { AccessDeniedComponent } from './share/access-denied/access-denied.component';
+import { authGuard } from './service/auth.guard';
 
 const routes: Routes = [
+  {path: "access-denied",component:AccessDeniedComponent},
   {path:"",component:UserComponent,
     children:[
       {path:"",redirectTo : "home", pathMatch: "full"},
       {path:"home",component:HomeComponent,title:"Trang chủ"},
-      {path: "collection/:collection-name", component:CollectionComponent,},
+      {path: "collection/:collection-name", component:CollectionComponent},
+      {path:"login",component:LoginComponent},
+      {path:"register",component:RegisterComponent},
       {path: "product/:product-name", component:ProductComponent},
       {path: "search/:keyword",component:SearchComponent},
       {path: "cart",component:CartDetailComponent},
-    ]
+      {path: "userdetail/:fullname",component:UserDetailComponent},
+      {path: "userdetail/:fullname/:code",component:UserOrderDetailComponent},
+    ] 
   },
-  {path: "admin",component:AdminComponent,
+  {path: "admin",component:AdminComponent,canActivate:[authGuard],
     children:[
       {path:"", redirectTo: "product", pathMatch: "full"},
       {path: "fields",component:FieldsComponent},
@@ -45,7 +56,7 @@ const routes: Routes = [
       },
     ]
   },
-  {path: "**", redirectTo : "home", pathMatch: "full"},
+  {path: "**", redirectTo : "admin", pathMatch: "full"},
 
 ];
 

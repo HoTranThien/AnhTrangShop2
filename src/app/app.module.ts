@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { AdminModule } from './admin/admin.module';
 import { ShareModule } from './share/share.module';
 import { UserModule } from './user/user.module';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './service/auth.interceptor';
 
 
 @NgModule({
@@ -21,7 +23,12 @@ import { UserModule } from './user/user.module';
     UserModule,
   ],
   providers: [
-    provideClientHydration()
+    provideClientHydration(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

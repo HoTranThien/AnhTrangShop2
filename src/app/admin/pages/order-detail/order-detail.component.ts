@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MessageComponent } from '../../../share/message/message.component';
 import { SpinerComponent } from '../../../share/spiner/spiner.component';
 import { Router } from '@angular/router';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 import { Order } from '../../../models/order.model';
 import { Status } from '../../../models/fields.model';
 import { catchError, throwError } from 'rxjs';
@@ -17,12 +17,12 @@ import { Title } from '@angular/platform-browser';
 export class OrderDetailComponent implements OnInit {
   constructor(
     private router:Router,
-    private myservice:MyServiceService,
+    private myservice:HttpMethodService,
     private title:Title,
   ) {
     this.title.setTitle(`Order detail`)
    }
-
+   @Input() isAdmin:boolean = true;
    @ViewChild('message') mymessage!:MessageComponent;
    isreadonly = true;
   Customer: FormGroup = new FormGroup({
@@ -39,7 +39,7 @@ export class OrderDetailComponent implements OnInit {
   delivery:any;
   selectedDelivery:any;
   isSuccess = false;
-  status:Status = {status:[]};
+  status:any = [];
 
   edit(){
     this.isreadonly = false;
@@ -48,7 +48,7 @@ export class OrderDetailComponent implements OnInit {
     if(this.Customer.valid){
       this.loading = true;
       this.isreadonly = true;
-      let url = this.myservice.getlink('api/order/update',this.MyOrder.id);
+      let url = this.myservice.getlink('order/update',this.MyOrder.id);
       this.myservice.putData(url,this.Customer.value).pipe(catchError(error => {
         this.mymessage.addmessage(3);
         this.loading = false;
@@ -71,24 +71,23 @@ export class OrderDetailComponent implements OnInit {
   }
   setFirstValue(){
     this.Customer.setValue({
-      customer_name:this.MyOrder.customer_name,
-      customer_tel: this.MyOrder.customer_tel,
-      customer_address: this.MyOrder.customer_address,
-      customer_note: this.MyOrder.customer_note || "",
+      customer_name:this.MyOrder.customerName,
+      customer_tel: this.MyOrder.customerTel,
+      customer_address: this.MyOrder.customerAddress,
+      customer_note: this.MyOrder.customerNote || "",
       note:this.MyOrder.note || "",
       status:this.MyOrder.status,
     });
   }
   getData(){
-    let url = this.myservice.getlink('api/order/getone',history.state.id)
+    let url = this.myservice.getlink('order/getone',history.state.id)
     this.myservice.getData(url).subscribe((data:any)=>{
-      this.MyOrder = data;
+      this.MyOrder = data.data;
       this.setFirstValue();
-
     })
-    let status_url = this.myservice.getlink('api/order/status');
+    let status_url = this.myservice.getlink('order/status');
     this.myservice.getData(status_url).subscribe((data:any) => {
-      this.status = data
+      this.status = data.data;
     })
   }
   ngOnInit() {

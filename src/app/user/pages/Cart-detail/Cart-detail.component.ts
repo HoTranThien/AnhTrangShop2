@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { CartService } from '../../../service/cart.service';
@@ -11,6 +11,7 @@ import { Order, ProductOrder } from '../../../models/order.model';
 import { catchError, throwError } from 'rxjs';
 import { SpinerComponent } from '../../../share/spiner/spiner.component';
 import { Title } from '@angular/platform-browser';
+import { TokenService } from '../../../service/token.service';
 
 @Component({
   selector: 'app-Cart-detail',
@@ -23,8 +24,9 @@ export class CartDetailComponent implements OnInit {
     private cart:CartService,
     private badge: BadgeService, 
     private router:Router,
-    private myservice:MyServiceService,
+    private myservice:HttpMethodService,
     private title:Title,
+    private tokenService:TokenService,
   ) {
       this.title.setTitle("Giỏ hàng")
    }
@@ -61,32 +63,40 @@ export class CartDetailComponent implements OnInit {
     this.cart.reset();
   }
   Buy(){
-    if(this.MyCart.valid){
-      let products:ProductOrder[]=[];
-      for(let el of this.MyProducts){
-        products.push(new ProductOrder(el.id,el.size.name,el.color.name,el.quantity))
+    if(this.tokenService.isTokenExpired())
+    {
+      this.router.navigateByUrl("/login");
+    }
+    else{
+      if(this.MyCart.valid){
+        let productOrder:ProductOrder[]=[];
+        for(let el of this.MyProducts){
+          productOrder.push(new ProductOrder(el.id,el.size.name,el.color.name,el.quantity))
+        }
+
+        let order = new Order(
+          productOrder,
+          this.tokenService.getUserId(),
+          this.MyCart.value.customer_name,
+          this.MyCart.value.customer_tel,
+          this.MyCart.value.customer_address,
+          this.MyCart.value.customer_note || "",
+          this.selectedDelivery.id,
+          this.total
+        );
+        this.loading = true;
+        let url = this.myservice.getlink('order/create');
+        this.myservice.postData(url,JSON.stringify(order)).pipe(catchError(error => {
+          this.mymessage.addmessage(3);
+          this.loading = false;
+          return throwError(() => new Error('Something bad happened; please try again later.'));;
+        })).subscribe(()=>{
+          this.mymessage.addmessage(2);
+          this.loading = false;
+          this.reset();
+          this.isSuccess=true;
+        })
       }
-      let order = new Order(
-        products,
-        this.MyCart.value.customer_name,
-        this.MyCart.value.customer_tel,
-        this.MyCart.value.customer_address,
-        this.MyCart.value.customer_note || "",
-        this.selectedDelivery.id,
-        this.total
-      );
-      this.loading = true;
-      let url = this.myservice.getlink('api/order/create');
-      this.myservice.postData(url,JSON.stringify(order)).pipe(catchError(error => {
-        this.mymessage.addmessage(3);
-        this.loading = false;
-        return throwError(() => new Error('Something bad happened; please try again later.'));;
-      })).subscribe(()=>{
-        this.mymessage.addmessage(2);
-        this.loading = false;
-        this.reset();
-        this.isSuccess=true;
-      })
     }
     
   }
@@ -100,9 +110,9 @@ export class CartDetailComponent implements OnInit {
     })
   }
   getDelivery(){
-    let url = this.myservice.getlink('api/delivery/getall');
-    this.myservice.getData(url).subscribe(data => {
-      this.delivery = data;
+    let url = this.myservice.getlink('delivery/getall');
+    this.myservice.getData(url).subscribe((data:any) => {
+      this.delivery = data.data;
       this.selectedDelivery = this.delivery[0];
       this.Total();
     });

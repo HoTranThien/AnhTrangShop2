@@ -4,12 +4,11 @@ import { MessageComponent } from '../../../share/message/message.component';
 import { ColorTableComponent } from '../../share/color-table/color-table.component';
 import { CollectionTableComponent } from '../../share/collection-table/collection-table.component';
 import { Category, Collection, Color, Delivery, Size, Status } from '../../../models/fields.model';
-import { MyServiceService } from '../../../service/my-service.service';
+import { HttpMethodService } from '../../../service/HttpMethod.service';
 import { DeliveryTableComponent } from '../../share/delivery-table/delivery-table.component';
 import { catchError, throwError } from 'rxjs';
 import { Title } from '@angular/platform-browser';
-import { SpinerComponent } from '../../../share/spiner/spiner.component';
-
+import { ApiResponse } from '../../../models/ApiResponse.model';
 @Component({
   selector: 'app-fields',
   templateUrl: './fields.component.html',
@@ -17,7 +16,7 @@ import { SpinerComponent } from '../../../share/spiner/spiner.component';
 })
 export class FieldsComponent implements OnInit,AfterViewInit {
 
-  constructor( private myservice:MyServiceService, private title:Title) { 
+  constructor( private myservice:HttpMethodService, private title:Title) { 
     this.title.setTitle("Handle Field")
   }
   @ViewChild('message') mymessage!:MessageComponent;
@@ -62,7 +61,7 @@ export class FieldsComponent implements OnInit,AfterViewInit {
     }
   receiveSizeMessage(e:Size,index?:number,id?:number){
     if(index == undefined){
-      let url = this.myservice.getlink('api/size/create');
+      let url = this.myservice.getlink('size/create');
       this.myservice.postData(url,e).pipe(catchError(error => {
         this.createsizedialog.closeDialog();
         this.mymessage.addmessage(3);
@@ -75,7 +74,7 @@ export class FieldsComponent implements OnInit,AfterViewInit {
 
     }
     else{
-      let url = this.myservice.getlink("api/size/update",id)
+      let url = this.myservice.getlink("size/update",id)
       this.myservice.putData(url,e).pipe(catchError(error => {
         this.createsizedialog.closeDialog();
         this.mymessage.addmessage(3);
@@ -87,12 +86,14 @@ export class FieldsComponent implements OnInit,AfterViewInit {
       });
     }
   }
-  getSize(){
-    this.myservice.getData(this.myservice.getlink("api/size/getall")).subscribe(data => this.sizes = data)
+  getSize() {
+    this.myservice.getData(this.myservice.getlink("size/getall")).subscribe((data: any) => {
+      this.sizes = data.data;
+    });
   }
-  deleteSize(id:number){
+  deleteSize(id: number) {
     try{
-      this.myservice.deleteData(this.myservice.getlink("api/size/delete",id)).pipe(catchError(error => {
+      this.myservice.deleteData(this.myservice.getlink("size/delete",id)).pipe(catchError(error => {
         this.mymessage.addmessage(3);
         return throwError(() => new Error('Something bad happened; please try again later.'));;
       })).subscribe(()=>{
@@ -117,7 +118,7 @@ showCreateColorDialog(){
 }
 receiveColorMessage(e:Color,index?:number,id?:number){
   if(index == undefined){
-    let url = this.myservice.getlink('api/color/create');
+    let url = this.myservice.getlink('color/create');
     this.myservice.postData(url,e).pipe(catchError(error => {
       this.createcolordialog.closeDialog();
       this.mymessage.addmessage(3);
@@ -129,7 +130,7 @@ receiveColorMessage(e:Color,index?:number,id?:number){
     });
   }
   else{
-    let url = this.myservice.getlink("api/color/update",id)
+    let url = this.myservice.getlink("color/update",id)
     this.myservice.putData(url,e).pipe(catchError(error => {
       this.colordialog.toArray()[index].closeDialog();
       this.mymessage.addmessage(3);
@@ -142,66 +143,16 @@ receiveColorMessage(e:Color,index?:number,id?:number){
   }
 }
 getColor(){
-    this.myservice.getData(this.myservice.getlink("api/color/getall")).subscribe(data => this.colors = data)
+    this.myservice.getData(this.myservice.getlink("color/getall")).subscribe((data:any) => this.colors = data.data)
 }
 deleteColor(id:number){
-  this.myservice.deleteData(this.myservice.getlink("api/color/delete",id)).pipe(catchError(error => {
+  this.myservice.deleteData(this.myservice.getlink("color/delete",id)).pipe(catchError(error => {
     this.mymessage.addmessage(3);
     return throwError(() => new Error('Something bad happened; please try again later.'));;
   })).subscribe(()=>{
     this.mymessage.addmessage(2);
     this.getColor();})
   }
-
-// #endregion
-
-//  #region Functions for Status
-// showStatusDialog(i:number){
-//   this.statusdialog.toArray()[i].parentvalue = JSON.parse(JSON.stringify(this.statuses[i]));
-//   this.statusdialog.toArray()[i].showDialog();
-// }
-// showCreateStatusDialog(){
-//   this.createstatusdialog.parentvalue = {name:"",code:""};
-//   this.createstatusdialog.showDialog();
-// }
-// receiveStatusMessage(e:Status,index?:number,id?:number){
-//   if(index == undefined){
-//     let url = this.myservice.getlink('api/status/create');
-//     this.myservice.postData(url,e).pipe(catchError(error => {
-//       this.createstatusdialog.closeDialog();
-//       this.mymessage.addmessage(3);
-//       return throwError(() => new Error('Something bad happened; please try again later.'));;
-//     })).subscribe(()=>{
-//       this.getStatus();
-//       this.createstatusdialog.closeDialog();
-//       this.mymessage.addmessage(2);
-//     });
-//   }
-//   else{
-//     let url = this.myservice.getlink("api/status/update",id)
-//     this.myservice.putData(url,e).pipe(catchError(error => {
-//       this.statusdialog.toArray()[index].closeDialog();
-//       this.mymessage.addmessage(3);
-//       return throwError(() => new Error('Something bad happened; please try again later.'));;
-//     })).subscribe(()=>{
-//       this.statusdialog.toArray()[index].closeDialog();
-//       this.mymessage.addmessage(2);
-//       this.getStatus();
-//     });
-//   }
-// }
-// getStatus(){
-//     this.myservice.getData(this.myservice.getlink("api/status/getall")).subscribe(data => this.statuses = data)
-// }
-// deleteStatus(id:number){
-//   this.myservice.deleteData(this.myservice.getlink("api/status/delete",id)).pipe(catchError(error => {
-//     this.mymessage.addmessage(3);
-//     return throwError(() => new Error('Something bad happened; please try again later.'));;
-//   })).subscribe(()=>{
-//     this.mymessage.addmessage(2);
-//     this.getStatus();})
-//   }
-//  #endregion
 
 // #region Functions for Delivery
 showDeliveryDialog(i:number){
@@ -214,7 +165,7 @@ showCreateDeliveryDialog(){
 }
 receiveDeliveryMessage(e:Delivery,index?:number,id?:number){
   if(index == undefined){
-    let url = this.myservice.getlink('api/delivery/create');
+    let url = this.myservice.getlink('delivery/create');
     this.myservice.postData(url,e).pipe(catchError(error => {
       this.createdeliverydialog.closeDialog();
       this.mymessage.addmessage(3);
@@ -226,7 +177,7 @@ receiveDeliveryMessage(e:Delivery,index?:number,id?:number){
     });
   }
   else{
-    let url = this.myservice.getlink("api/delivery/update",id)
+    let url = this.myservice.getlink("delivery/update",id)
     this.myservice.putData(url,e).pipe(catchError(error => {
       this.deliverydialog.toArray()[index].closeDialog();
       this.mymessage.addmessage(3);
@@ -239,10 +190,10 @@ receiveDeliveryMessage(e:Delivery,index?:number,id?:number){
   }
 }
 getDelivery(){
-    this.myservice.getData(this.myservice.getlink("api/delivery/getall")).subscribe(data => this.deliveries = data)
+    this.myservice.getData(this.myservice.getlink("delivery/getall")).subscribe((data:any) => this.deliveries = data.data)
 }
 deleteDelivery(id:number){
-  this.myservice.deleteData(this.myservice.getlink("api/delivery/delete",id)).pipe(catchError(error => {
+  this.myservice.deleteData(this.myservice.getlink("delivery/delete",id)).pipe(catchError(error => {
     this.mymessage.addmessage(3);
     return throwError(() => new Error('Something bad happened; please try again later.'));;
   })).subscribe(()=>{
@@ -258,16 +209,16 @@ showCollectionDialog(i:number){
   this.collectiondialog.toArray()[i].showDialog();
   }
 showCreateCollectionDialog(){
-  this.createcollectiondialog.parentvalue = {id:"",name:"",img:"",imgFile:undefined};
+  this.createcollectiondialog.parentvalue = {id:"",name:"",img:"",file:undefined};
   this.createcollectiondialog.showDialog();
   }
 receiveCollectionMessage(e:Collection,index?:number,id?:number){
   if(index == undefined){
-    let url = this.myservice.getlink('api/collection/create');
+    let url = this.myservice.getlink('collection/create');
     const formData:FormData = new FormData();
-    if(e.name && e.imgFile){
+    if(e.name && e.file){
       formData.append('name',e.name);
-      formData.append('img',e.imgFile);
+      formData.append('file',e.file);
     }
     this.myservice.postDataWithImg(url,formData).pipe(catchError(error => {
       this.createcollectiondialog.closeDialog();
@@ -280,13 +231,13 @@ receiveCollectionMessage(e:Collection,index?:number,id?:number){
     });
   }
   else{
-    let url = this.myservice.getlink("api/collection/update",id)
+    let url = this.myservice.getlink("collection/update",id)
     const formData:FormData = new FormData();
     if(e.name){
       formData.append('name',e.name);
     }
-    if(e.imgFile){
-      formData.append('img',e.imgFile);
+    if(e.file){
+      formData.append('file',e.file);
     }
     this.myservice.putData(url,formData).pipe(catchError(error => {
       this.collectiondialog.toArray()[index].closeDialog();
@@ -300,10 +251,10 @@ receiveCollectionMessage(e:Collection,index?:number,id?:number){
   }
 }
 getCollection(){
-  this.myservice.getData(this.myservice.getlink("api/collection/getall")).subscribe(data => this.collections = data)
+  this.myservice.getData(this.myservice.getlink("collection/getall")).subscribe((data:any) => this.collections = data.data)
 }
 deleteCollection(id:number){
-  this.myservice.deleteData(this.myservice.getlink("api/collection/delete",id)).pipe(catchError(error => {
+  this.myservice.deleteData(this.myservice.getlink("collection/delete",id)).pipe(catchError(error => {
     this.mymessage.addmessage(3);
     return throwError(() => new Error('Something bad happened; please try again later.'));;
   })).subscribe(()=>{
@@ -321,7 +272,7 @@ showCreateMCDialog(){
   }
 receiveMCMessage(e:Category,index?:number,id?:number){
   if(index == undefined){
-    let url = this.myservice.getlink('api/parent_category/create');
+    let url = this.myservice.getlink('parentcategory/create');
     this.myservice.postData(url,e).pipe(catchError(error => {
       this.createmcdialog.closeDialog();
       this.mymessage.addmessage(3);
@@ -334,7 +285,7 @@ receiveMCMessage(e:Category,index?:number,id?:number){
 
   }
   else{
-    let url = this.myservice.getlink("api/parent_category/update",id)
+    let url = this.myservice.getlink("parentcategory/update",id)
     this.myservice.putData(url,e).pipe(catchError(error => {
       this.mcdialog.toArray()[index].closeDialog();
       this.mymessage.addmessage(3);
@@ -347,8 +298,8 @@ receiveMCMessage(e:Category,index?:number,id?:number){
   }
 }
 getAllCategories(){
-  this.myservice.getData(this.myservice.getlink("api/parent_category/getallwithchildren")).subscribe(data => {
-    this.categories = data;
+  this.myservice.getData(this.myservice.getlink("parentcategory/getall")).subscribe((data:any) => {
+    this.categories = data.data;
     this.loading = false;
   })
 }

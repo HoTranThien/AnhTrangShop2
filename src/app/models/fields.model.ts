@@ -17,7 +17,7 @@ export class Delivery{
 }
 export class Collection{
     name?:string;
-    imgFile?:File;
+    file?:File;
     img?:string;
     id?:string;
     product?:Product[]
