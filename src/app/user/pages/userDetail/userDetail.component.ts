@@ -89,7 +89,6 @@ export class UserDetailComponent implements OnInit {
     let userOrder_url = this.myservice.getlink('user/getorders');
     this.myservice.postData(userOrder_url,this.tokenService.getToken()).subscribe((data:any) => {
       this.orders = data.data;
-      console.log(data.data)
     })
   }
   ngOnInit() {

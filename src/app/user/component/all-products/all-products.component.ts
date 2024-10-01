@@ -25,7 +25,6 @@ export class AllProductsComponent implements OnInit {
     let url = this.myService.getlink(this.query);
     this.myService.getDataWithPageRequest(url,page, limit).subscribe((data:any)=> {
       this.collection = data.data.products;
-      console.log(this.collection)
       this.total = data.data.total;
       if(this.collection == null||this.collection.length<=0) this.notFound = true;
       else this.notFound = false;
