@@ -10,8 +10,9 @@ export class HttpMethodService {
 
 constructor(private http:HttpClient) { }
 //HOST
-HOST:string = "http://localhost:8080/api/v1";
+//HOST:string = "http://localhost:8080/api/v1";
 //HOST:string = "https://anhtrangshopapi.onrender.com";
+HOST:string = "https://anhtrangapi.onrender.com/api/v1";
 
 getlink(link:string,id?:number){
   if(id)return this.HOST + "/" + link + "/" + id;
